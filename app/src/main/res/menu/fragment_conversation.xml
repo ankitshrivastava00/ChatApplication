@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item
+        android:id="@+id/action_attach_file"
+        android:orderInCategory="30"
+        app:showAsAction="never"
+        android:title="attach_file">
+        <menu>
+-->
+    <item
+        app:showAsAction="withText"
+        android:icon="@drawable/audio_file"
+        android:id="@+id/attach_choose_file"
+        android:title="choose file" />
+
+    <item
+        app:showAsAction="withText"
+        android:icon="@drawable/audio_file"
+        android:id="@+id/attach_choose_picture"
+        android:title="attach choose picture" />
+
+    <item
+        app:showAsAction="withText"
+        android:icon="@drawable/audio_file"
+        android:id="@+id/attach_take_picture"
+        android:title="attach take picture" />
+
+    <item
+        app:showAsAction="withText"
+        android:id="@+id/attach_record_video"
+        android:icon="@drawable/audio_file"
+        android:title="attach choose video" />
+
+    <item
+        android:id="@+id/attach_voice"
+
+        android:icon="@drawable/audio_file"
+        android:title="attach voice recording" />
+    <item
+        app:showAsAction="withText"
+        android:icon="@drawable/audio_file"
+        android:id="@+id/attach_record_voice"
+        android:title="attach choose voice" />
+
+    <item
+        app:showAsAction="withText"
+        android:icon="@drawable/audio_file"
+        android:id="@+id/attach_location"
+        android:title="send location" /><!--
+        </menu>
+    </item>
+-->
+</menu>

@@ -1,0 +1,27 @@
+<?xml version="1.0"   encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+    <!--<item
+        android:id="@+id/selectAll"
+        android:title="Select  All"
+        />
+-->
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/delete_btn"
+        android:title="Delete"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/deleteone"
+        android:title="Delete"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/copy"
+        android:title="copy"
+
+        app:showAsAction="always" />
+
+</menu>

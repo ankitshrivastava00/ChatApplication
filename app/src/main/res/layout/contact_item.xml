@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dime_5dp"
+        android:elevation="@dimen/dime_5dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/dime_5dp"
+        app:cardElevation="@dimen/dime_5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageIcon"
+                android:layout_width="@dimen/margin_70dp"
+                android:layout_height="@dimen/margin_70dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/dime_5dp"
+                android:src="@drawable/user_placeholder" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/dime_5dp"
+                android:layout_toRightOf="@+id/imageIcon"
+                android:orientation="vertical"
+                android:singleLine="true"
+                android:text="Ankit"
+                android:textColor="@color/black"
+                android:textSize="@dimen/margin_15dp">
+
+                <TextView
+                    android:id="@+id/textName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/textMobile"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/dime_5dp"
+                    android:layout_toRightOf="@+id/imageIcon"
+                    android:singleLine="true"
+                    android:text="Ankit"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/margin_15dp" />
+
+                <TextView
+                    android:id="@+id/textMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/dime_5dp"
+
+
+                    android:layout_toRightOf="@+id/imageIcon"
+                    android:singleLine="true"
+                    android:text="9713172282"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/margin_15dp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

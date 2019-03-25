@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    local:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+    <TextView
+        android:id="@+id/name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ankit Shrivastava"
+        android:textSize="15dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:singleLine="true"
+        />
+    <TextView
+        android:id="@+id/online_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="online"
+        android:textSize="12dp"
+        android:textColor="#FFFFFF"
+        android:visibility="visible"
+        android:textStyle="italic"
+        android:singleLine="true"
+        />
+    </LinearLayout>
+
+</android.support.v7.widget.Toolbar>

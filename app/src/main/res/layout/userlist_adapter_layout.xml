@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/userLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:weightSum="100">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="20">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/chatImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/app_icon"
+
+                    />
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="60"
+            android:paddingLeft="10dp">
+
+
+            <TextView
+                android:id="@+id/chatFriendName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/paddingLeft"
+                android:layout_marginRight="@dimen/dime_5dp"
+                android:layout_marginTop="@dimen/marginTop10dp"
+                android:text="Kobe | Hotline Mobile Com"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textColor="@color/main_text_color"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chatFriendName"
+                android:orientation="horizontal">
+
+
+                <github.ankushsachdeva.emojicon.EmojiconTextView
+                    android:id="@+id/chatStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/paddingLeft"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/marginBottom5dp"
+                    android:text="Mobile, mobile covers,batteries"
+                    android:singleLine="true"
+                    android:textColor="@color/sub_text_color"
+                    android:textSize="15sp"
+
+                    />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20">
+
+            <TextView
+                android:id="@+id/chatDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="12.00"
+                android:textSize="13px"
+                android:textColor="#000"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvUnreadBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chatDate"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/badge_back"
+                android:gravity="center_horizontal"
+
+                android:padding="5dp"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="25dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/inviteUserForTopchat"
+
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:background="@color/divider_line"
+                android:text="Invite"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/statusIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+
+            android:src="@drawable/gray_send_button"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/llMain"
+        android:layout_marginLeft="60dp"
+
+        android:layout_marginTop="15dp"
+        />
+
+</LinearLayout>

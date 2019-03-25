@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "826734041371",
+    "firebase_url": "https://zippyfeed-2e3c7.firebaseio.com",
+    "project_id": "zippyfeed-2e3c7",
+    "storage_bucket": "zippyfeed-2e3c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826734041371:android:f8e0b444174a3958",
+        "android_client_info": {
+          "package_name": "com.bhandari.music"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826734041371-79sqssqvodcao5qf4qma737n7unck5oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBuAR4fH45SOvfjUOeoSHnT1Oe9BZYJbI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826734041371:android:dc677109ef0ee8d2",
+        "android_client_info": {
+          "package_name": "com.ziasy.xmppchatapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826734041371-er3f5gtsa34j402pv1en6kuslovih710.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ziasy.xmppchatapplication",
+            "certificate_hash": "405cb2919de9a99a454db3511c9251642dd9a922"
+          }
+        },
+        {
+          "client_id": "826734041371-79sqssqvodcao5qf4qma737n7unck5oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBuAR4fH45SOvfjUOeoSHnT1Oe9BZYJbI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826734041371-79sqssqvodcao5qf4qma737n7unck5oi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826734041371:android:5b5f3a4039f479f9",
+        "android_client_info": {
+          "package_name": "zippy.zippyfeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826734041371-1n9b68j75jbsqt3u6f1rol1o8o4mi2ik.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "zippy.zippyfeed",
+            "certificate_hash": "33788d8d091c56d54a8723a64fb1f27bb81b3d9f"
+          }
+        },
+        {
+          "client_id": "826734041371-79sqssqvodcao5qf4qma737n7unck5oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBuAR4fH45SOvfjUOeoSHnT1Oe9BZYJbI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826734041371-79sqssqvodcao5qf4qma737n7unck5oi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

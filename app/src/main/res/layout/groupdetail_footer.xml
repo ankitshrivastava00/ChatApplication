@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginTop="5dp"
+
+    android:weightSum="1">
+
+    <Button
+        android:id="@+id/addGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/career_text_color"
+        android:text="Add More Users" />
+
+    <Button
+        android:id="@+id/exitGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+
+        android:background="@color/red_background"
+        android:text="Exit Group" />
+    <Button
+        android:id="@+id/exitGroupForSingle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:background="@color/red_background"
+        android:text="Exit Group" />
+</LinearLayout>

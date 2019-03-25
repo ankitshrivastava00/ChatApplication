@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <!--
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textSize="16sp"
+            android:text="sdfgdfdfgdfgdf"
+            android:textColor="#000"
+            android:textStyle="bold" />-->
+   <!-- <RelativeLayout
+        android:id="@+id/relativeDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:adjustViewBounds="true"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginTop10dp"
+            android:layout_marginTop="@dimen/marginBottom5dp"
+            android:layout_marginBottom="@dimen/marginTop10dp"
+            android:background="@drawable/date_background"
+            android:gravity="center"
+            android:padding="@dimen/dime_5dp"
+            android:text="14/07/2015"
+            android:textSize="14sp" />
+    </RelativeLayout>-->
+
+
+
+    <include
+        layout="@layout/incoming_text"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/incoming_video"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/outgoing_video"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/outgoing_contact_list"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/incoming_contact_list"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/outgoing_location"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/incoming_location"
+        android:visibility="gone" />
+    <include
+        layout="@layout/outgoing_audio"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/incoming_audio"
+        android:visibility="gone" />
+
+
+    <include
+        layout="@layout/outgoing_emoji"
+        android:visibility="gone" />
+
+    <include
+
+        layout="@layout/outgoing_tv"
+        android:visibility="gone" />
+
+    <include
+
+        layout="@layout/outgoing_pdf"
+        android:visibility="gone" />
+
+    <include
+
+        layout="@layout/incoming_pdf"
+        android:visibility="gone" />
+
+
+    <include
+        layout="@layout/incoming_emoji"
+        android:visibility="gone" />
+
+
+    <include
+        layout="@layout/outgoing_image"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/incoming_image"
+        android:visibility="gone" />
+</RelativeLayout>

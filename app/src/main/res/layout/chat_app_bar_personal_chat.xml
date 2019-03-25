@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/ud_blue"
+>
+
+    <LinearLayout
+        android:id="@+id/ogAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/imageBack"
+            android:layout_width="@dimen/margin_25dp"
+            android:layout_height="@dimen/margin_25dp"
+            android:layout_gravity="center"
+
+            android:scaleType="centerInside"
+            android:src="@drawable/back_arrow" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chatProfilePic"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight=".17"
+            android:src="@drawable/profile_place_holder"
+            app:civ_border_color="#00000000"
+            app:civ_border_width="0dp" />
+
+        <RelativeLayout
+            android:id="@+id/chatName"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight=".54"
+
+            android:gravity="center|left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left|bottom"
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:text="Mark | Kids Fashion"
+                android:textColor="#FFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statusTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nameTv"
+                android:layout_gravity="center|left"
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:text="Online"
+                android:textColor="#FFF"
+                android:textSize="12sp"
+                android:visibility="gone" />
+            <!--
+                        <TextView
+                            android:id="@+id/typingStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/nameTv"
+                            android:layout_gravity="center|left"
+                            android:gravity="center|left"
+                            android:singleLine="true"
+                            android:text="Typing"
+                            android:textColor="#FFF"
+                            android:textSize="12sp"
+                            android:visibility="gone" />-->
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/attachmentBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_25dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight=".15"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu_inactive" />
+
+        <ImageView
+            android:id="@+id/settingIv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_25dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight=".15"
+            android:scaleType="centerInside"
+            android:src="@drawable/setting_inactive" />
+    </LinearLayout>
+
+
+
+
+</android.support.v7.widget.Toolbar>
+
