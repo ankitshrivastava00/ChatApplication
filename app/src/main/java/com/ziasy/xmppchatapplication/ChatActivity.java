@@ -196,7 +196,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
     //private ProgressDialog progressDialog;
     private Toolbar mToolbar;
     private ApiInterface apiInterface;
-    private TextView txt_name, txt_online_status;
+    private TextView txt_name, txt_online_status, typingStatus;
     private ImageView smileyBtn, ImageAttachment, ImageSetting, imageBack, sendButton, sendVoiceRecording;
     private StringBuffer selectedImgFile;
     private StringBuffer selectedImgFilePath;
@@ -215,14 +215,14 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
     private boolean mTyping = false;
     private Handler mTypingHandler = new Handler();
     private Socket mSocket;
-    private TextView typing_txt;
+    //  private TextView typing_txt;
     private static final int TYPING_TIMER_LENGTH = 600;
     private String imgDecodableString;
     private boolean isMultiSelect = false;
     private AlertDialogHelper alertDialogHelper;
     //  TOOLBAR CHANGE
     private LinearLayout linear_chat_option;
-    private ImageView btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn, btnReplyCab,btnUnselect;
+    private ImageView btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn, btnReplyCab, btnUnselect;
     private ArrayList<JsonModelForChat> multiselect_list;
     private ArrayList<String> copy_list;
     private ClipboardManager myClipboard;
@@ -232,7 +232,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
     private ProgressDialog progressDialog;
     private LocalFileManager localFileManager;
     private LocalDBHelper localDBHelper;
-    private String localPath= null,mode= "online";
+    private String localPath = null, mode = "online";
 
     public void compressImage(File mainFile) {
 
@@ -271,14 +271,14 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
     };
 
     private void sendOfflineMessage() {
-      //  progressDialog.show();
-        List<JsonModelForChat> offlineList=localDBHelper.getAllGroupMessage(rid);
-        for(int i=0;i<offlineList.size();i++){
-            if (offlineList.get(i).getStatus().equals("offline")){
-                attemptSend(offlineList.get(i).getMessage(),offlineList.get(i).getType());
+        //  progressDialog.show();
+        List<JsonModelForChat> offlineList = localDBHelper.getAllGroupMessage(rid);
+        for (int i = 0; i < offlineList.size(); i++) {
+            if (offlineList.get(i).getStatus().equals("offline")) {
+                attemptSend(offlineList.get(i).getMessage(), offlineList.get(i).getType());
             }
         }
-       // progressDialog.dismiss();
+        // progressDialog.dismiss();
     }
 
     @Override
@@ -316,13 +316,13 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         cab_copy_btn = (ImageView) findViewById(R.id.cab_copy_btn);
         btnReplyCab = (ImageView) findViewById(R.id.btnReplyCab);
         btnUnselect = (ImageView) findViewById(R.id.btnUnselect);
-        localDBHelper= new LocalDBHelper(this);
+        localDBHelper = new LocalDBHelper(this);
         //   btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn ;
 
         btnReplyCab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-           //     Toast.makeText(ChatActivity.this, "On Progress", Toast.LENGTH_SHORT).show();
+                //     Toast.makeText(ChatActivity.this, "On Progress", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -399,7 +399,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                     chatAdapter.selected_usersList = multiselect_list;
                     chatAdapter.notifyDataSetChanged();
                 } else {
-                 }
+                }
             }
         });
 
@@ -482,16 +482,25 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         recordView.setOnRecordListener(new OnRecordListener() {
             @Override
             public void onStart() {
-                if (chatAdapter!=null) {
+                if (chatAdapter != null) {
                     chatAdapter.clearMusic();
-                    for (JsonModelForChat model:list) {
+                    for (JsonModelForChat model : list) {
                         model.setSelect(false);
                     }
                     chatAdapter.notifyDataSetChanged();
                 }
                 hideEditText.setVisibility(View.GONE);
                 recordView.setVisibility(View.VISIBLE);
-
+                if (!mTyping) {
+                    mTyping = true;
+                    JsonObject object = new JsonObject();
+                    object.addProperty("reciverid", rid);
+                    object.addProperty("senderid", sd.getKeyId());
+                    object.addProperty("msg", "recording");
+                    mSocket.emit("typing", object);
+                }
+                mTypingHandler.removeCallbacks(onTypingTimeout);
+                mTypingHandler.postDelayed(onTypingTimeout, TYPING_TIMER_LENGTH);
                 boolean attached_file6 = Permission.checkReadExternalStoragePermission(ChatActivity.this);
                 boolean recording = Permission.checkRecordPermission(ChatActivity.this);
                 boolean recordingWrite = Permission.permissionForExternal(ChatActivity.this);
@@ -609,8 +618,9 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         ImageSetting = (ImageView) findViewById(R.id.settingIv);
         chatName = (RelativeLayout) findViewById(R.id.chatName);
         txt_online_status = (TextView) findViewById(R.id.statusTv);
+        typingStatus = (TextView) findViewById(R.id.typingStatus);
         txt_name.setText(username);
-        typing_txt = (TextView) findViewById(R.id.typing_txt);
+        //  typing_txt = (TextView) findViewById(R.id.typing_txt);
         // Socket IO
         mSocket.on("myMessage", onConnect);
         mSocket.on("onTyping", onTyping);
@@ -1022,10 +1032,10 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         sendVoiceRecording.setOnClickListener(this);
         list = new ArrayList<JsonModelForChat>();
         if (!cd.isConnectingToInternet()) {
-            mode="offline";
-            list= new ArrayList<>();
-            list=localDBHelper.getAllSingleChat(rid);
-            chatAdapter = new ChatAdapter(ChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list,mode);
+            mode = "offline";
+            list = new ArrayList<>();
+            list = localDBHelper.getAllSingleChat(rid);
+            chatAdapter = new ChatAdapter(ChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list, mode);
             msgListView.setAdapter(chatAdapter);
             Snackbar.make(findViewById(android.R.id.content), "No Internet Connection- Offline Mode", Snackbar.LENGTH_SHORT).show();
         }
@@ -1041,6 +1051,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                     JsonObject object = new JsonObject();
                     object.addProperty("reciverid", rid);
                     object.addProperty("senderid", sd.getKeyId());
+                    object.addProperty("msg", "typing...");
                     mSocket.emit("typing", object);
                 }
                 mTypingHandler.removeCallbacks(onTypingTimeout);
@@ -1074,7 +1085,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
         //list.addAll(DBUtil.fetchAllChatList(ChatActivity.this,sd.getKeyId(),rid));
-      //  Log.d("DATAFUCK",list +"");
+        //  Log.d("DATAFUCK",list +"");
         //chatAdapter = new ChatAdapter(ChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list);
         ///msgListView.setAdapter(chatAdapter);
         chatName.setOnClickListener(new OnClickListener() {
@@ -1119,21 +1130,21 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
             multiselect_list.add(list.get(position));
             copy_list.add(list.get(position).getMessage());
         }
-        for (JsonModelForChat bomb:multiselect_list){
-            if (!bomb.getSendName().equalsIgnoreCase(sd.getKeyId())){
+        for (JsonModelForChat bomb : multiselect_list) {
+            if (!bomb.getSendName().equalsIgnoreCase(sd.getKeyId())) {
                 cab_bomb_btn.setVisibility(View.GONE);
                 break;
-            }else {
+            } else {
                 cab_bomb_btn.setVisibility(View.VISIBLE);
 
             }
         }
-        for (JsonModelForChat model:multiselect_list){
-            if (!model.getType().equalsIgnoreCase("msg")){
+        for (JsonModelForChat model : multiselect_list) {
+            if (!model.getType().equalsIgnoreCase("msg")) {
                 cab_copy_btn.setVisibility(View.GONE);
 
                 break;
-            }else {
+            } else {
                 cab_copy_btn.setVisibility(View.VISIBLE);
             }
         }
@@ -1351,19 +1362,19 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                 if (state.COMPLETED.equals(observer.getState())) {
                     localFileManager = new LocalFileManager(ChatActivity.this);
                     localFileManager.createDocsFolder();
-                    try{
-                        if (Extention.equals(".mp3")){
+                    try {
+                        if (Extention.equals(".mp3")) {
                             localFileManager.createAudioFolder();
-                            File file1=localFileManager.saveMedia(file,".mp3");
-                            localPath=file1.getAbsolutePath();
-                            Log.d("Local-docs/audio",file1.getAbsolutePath());
-                        }else{
-                            File file1=localFileManager.saveDocs(file,path);
-                            localPath=file1.getAbsolutePath();
+                            File file1 = localFileManager.saveMedia(file, ".mp3");
+                            localPath = file1.getAbsolutePath();
+                            Log.d("Local-docs/audio", file1.getAbsolutePath());
+                        } else {
+                            File file1 = localFileManager.saveDocs(file, path);
+                            localPath = file1.getAbsolutePath();
                         }
 
-                    }catch (Exception e){
-                        Log.d("Local-docs",e.toString());
+                    } catch (Exception e) {
+                        Log.d("Local-docs", e.toString());
                     }
                     Toast.makeText(ChatActivity.this, "File Upload Complete", Toast.LENGTH_SHORT).show();
                     attemptSend(Confiq.DOCUMNMENT_URL_AWS + FileName, type);
@@ -1535,20 +1546,20 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
 
 
                         if (reciever_id.equalsIgnoreCase(rid)) {
-                            Log.d("DUPLICATE",DBUtil.checkSingleChat(ChatActivity.this,mid)+"");
-                          //  if (!DBUtil.checkSingleChat(ChatActivity.this,mid)) {
-                              //  list.add( DBUtil.chatInsert(ChatActivity.this,0,senderid,reciever_id,datetime,message,isread,deliver,type,time,date,mid));
-                            if ((type.equals("img") || type.equals("video") || type.equals("audio")) && localPath!=null){
-                                localDBHelper.insertSingleChat(new JsonModelForChat(localPath, senderid, reciever_id, date, isread, "All", time, deliver, mid, localPath, type, "asdfa", "asdfsda", "asdfsa", datetime, false),rid);
-                                localPath=null;
-                            }else{
-                                localDBHelper.insertSingleChat(new JsonModelForChat(message, senderid, reciever_id, date, isread, "All", time, deliver, mid, message, type, "asdfa", "asdfsda", "asdfsa", datetime, false),rid);
+                            Log.d("DUPLICATE", DBUtil.checkSingleChat(ChatActivity.this, mid) + "");
+                            //  if (!DBUtil.checkSingleChat(ChatActivity.this,mid)) {
+                            //  list.add( DBUtil.chatInsert(ChatActivity.this,0,senderid,reciever_id,datetime,message,isread,deliver,type,time,date,mid));
+                            if ((type.equals("img") || type.equals("video") || type.equals("audio")) && localPath != null) {
+                                localDBHelper.insertSingleChat(new JsonModelForChat(localPath, senderid, reciever_id, date, isread, "All", time, deliver, mid, localPath, type, "asdfa", "asdfsda", "asdfsa", datetime, false), rid);
+                                localPath = null;
+                            } else {
+                                localDBHelper.insertSingleChat(new JsonModelForChat(message, senderid, reciever_id, date, isread, "All", time, deliver, mid, message, type, "asdfa", "asdfsda", "asdfsa", datetime, false), rid);
                             }
 
                             list.add(new JsonModelForChat(message, senderid, reciever_id, date, isread, response, time, deliver, mid, message, type, "asdfa", "asdfsda", "asdfsa", datetime, false));
 
                             //list.add(DBUtil.chatInsert(ChatActivity.this, 0, senderid, reciever_id, datetime, message, isread, deliver, type, time, date));
-                          //  }
+                            //  }
                         }
                     } catch (JSONException e) {
                         Log.d(TAG, e.getMessage());
@@ -1564,7 +1575,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
 
                     }
                     scrollTodown();
-                    typing_txt.setVisibility(View.GONE);
+                    typingStatus.setVisibility(View.GONE);
                 }
             });
         }
@@ -1654,17 +1665,17 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
 
                             }
 
-                            if (mode.equals("offline")){
-                                list=localDBHelper.getAllSingleChat(rid);
+                            if (mode.equals("offline")) {
+                                list = localDBHelper.getAllSingleChat(rid);
                                 Log.d("No_internet_data", list.toString());
-                            }else{
+                            } else {
                                 list.add(new JsonModelForChat(message, send_id, rcv_id, date, isread, "All", time, deliver, mid, message, type, "asdfa", "asdfsda", "asdfsa", datetime, false));
                             }
-                            if ((type.equals("img") || type.equals("video") || type.equals("audio")) && localPath!=null){
-                                localDBHelper.insertSingleChat(new JsonModelForChat(localPath, send_id, rcv_id, date, isread, "All", time, deliver, mid, localPath, type, "asdfa", "asdfsda", "asdfsa", datetime, false),rid);
-                                localPath=null;
-                            }else{
-                                localDBHelper.insertSingleChat(new JsonModelForChat(message, send_id, rcv_id, date, isread, "All", time, deliver, mid, message, type, "asdfa", "asdfsda", "asdfsa", datetime, false),rid);
+                            if ((type.equals("img") || type.equals("video") || type.equals("audio")) && localPath != null) {
+                                localDBHelper.insertSingleChat(new JsonModelForChat(localPath, send_id, rcv_id, date, isread, "All", time, deliver, mid, localPath, type, "asdfa", "asdfsda", "asdfsa", datetime, false), rid);
+                                localPath = null;
+                            } else {
+                                localDBHelper.insertSingleChat(new JsonModelForChat(message, send_id, rcv_id, date, isread, "All", time, deliver, mid, message, type, "asdfa", "asdfsda", "asdfsa", datetime, false), rid);
 
                             }
                             //             list.addAll(DBUtil.fetchAllChatList(ChatActivity.this));
@@ -1673,9 +1684,9 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                       /*  if (chatAdapter != null) {
                             chatAdapter.notifyDataSetChanged();
                         } else {*/
-                            chatAdapter = new ChatAdapter(ChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list, mode);
-                            msgListView.setAdapter(chatAdapter);
-                      //  }
+                        chatAdapter = new ChatAdapter(ChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list, mode);
+                        msgListView.setAdapter(chatAdapter);
+                        //  }
 
                         ///  progressDialog.dismiss();
 
@@ -1717,18 +1728,18 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                         }
 
                         if (senderid.equalsIgnoreCase(rid)) {
-                     //       if (DBUtil.checkSingleChat(ChatActivity.this,mid)) {
-                       //         list.add( DBUtil.chatInsert(ChatActivity.this,0,senderid,reciever_id,datetime,message,isread,deliver,dtype,time,date,mid));
-                            if ((dtype.equals("img") || dtype.equals("video") || dtype.equals("audio")) && localPath!=null){
-                                localDBHelper.insertSingleChat(new JsonModelForChat(localPath, senderid, reciever_id, date, isread, "All", time, deliver, mid, localPath, dtype, "asdfa", "asdfsda", "asdfsa", datetime, false),rid);
-                                localPath=null;
-                            }else{
-                                localDBHelper.insertSingleChat(new JsonModelForChat(message, senderid, reciever_id, date, isread, "All", time, deliver, mid, message, dtype, "asdfa", "asdfsda", "asdfsa", datetime, false),rid);
+                            //       if (DBUtil.checkSingleChat(ChatActivity.this,mid)) {
+                            //         list.add( DBUtil.chatInsert(ChatActivity.this,0,senderid,reciever_id,datetime,message,isread,deliver,dtype,time,date,mid));
+                            if ((dtype.equals("img") || dtype.equals("video") || dtype.equals("audio")) && localPath != null) {
+                                localDBHelper.insertSingleChat(new JsonModelForChat(localPath, senderid, reciever_id, date, isread, "All", time, deliver, mid, localPath, dtype, "asdfa", "asdfsda", "asdfsa", datetime, false), rid);
+                                localPath = null;
+                            } else {
+                                localDBHelper.insertSingleChat(new JsonModelForChat(message, senderid, reciever_id, date, isread, "All", time, deliver, mid, message, dtype, "asdfa", "asdfsda", "asdfsa", datetime, false), rid);
                             }
                             list.add(new JsonModelForChat(message, senderid, reciever_id, date, isread, "not available", time, deliver, mid, message, dtype, "asdfa", "asdfsda", "asdfsa", datetime, false));
 
                             //list.add(DBUtil.chatInsert(ChatActivity.this, 0, senderid, reciever_id, datetime, message, isread, deliver, type, time, date));
-                         ///   }//                            list.add(new JsonModelForChat(message, senderid, reciever_id, date, isread, "user", time, deliver, mid, message, dtype, "asdfa", "asdfsda", "asdfsa", datetime, false));
+                            ///   }//                            list.add(new JsonModelForChat(message, senderid, reciever_id, date, isread, "user", time, deliver, mid, message, dtype, "asdfa", "asdfsda", "asdfsa", datetime, false));
                         }
                     } catch (JSONException e) {
                         Log.d(TAG, e.getMessage());
@@ -1742,7 +1753,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                         msgListView.setAdapter(chatAdapter);
                     }
                     scrollTodown();
-                    typing_txt.setVisibility(View.GONE);
+                    typingStatus.setVisibility(View.GONE);
                 }
             });
         }
@@ -1889,9 +1900,11 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                     try {
                         String senderid = data.getString("senderid");
                         String reciever_id = data.getString("reciverid");
+                        String msg = data.optString("msg");
                         if (senderid.equalsIgnoreCase(rid)) {
-                            typing_txt.setText("Typing..");
-                            typing_txt.setVisibility(View.VISIBLE);
+                            typingStatus.setText(msg);
+                            typingStatus.setVisibility(View.VISIBLE);
+                            txt_online_status.setVisibility(View.GONE);
                             Log.d("TYPING", "RUNNING TYPING");
                         }
                     } catch (JSONException e) {
@@ -1914,7 +1927,8 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                         String senderid = data.getString("senderid");
                         String reciever_id = data.getString("reciverid");
                         if (senderid.equalsIgnoreCase(rid)) {
-                            typing_txt.setVisibility(View.GONE);
+                            typingStatus.setVisibility(View.GONE);
+                            txt_online_status.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
                         Log.d(TAG, e.getMessage());
@@ -1930,10 +1944,26 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         public void run() {
             if (!mTyping) return;
             mTyping = false;
-            typing_txt.setVisibility(View.GONE);
+            typingStatus.setVisibility(View.GONE);
+            txt_online_status.setVisibility(View.VISIBLE);
             JsonObject object = new JsonObject();
             object.addProperty("reciverid", rid);
             object.addProperty("senderid", sd.getKeyId());
+            mSocket.emit("stopTyping", object);
+        }
+    };
+
+    private Runnable onRecordingTimeout = new Runnable() {
+        @Override
+        public void run() {
+            if (!mTyping) return;
+            mTyping = false;
+            typingStatus.setVisibility(View.GONE);
+            txt_online_status.setVisibility(View.VISIBLE);
+            JsonObject object = new JsonObject();
+            object.addProperty("reciverid", rid);
+            object.addProperty("senderid", sd.getKeyId());
+            object.addProperty("msg", "typing");
             mSocket.emit("stopTyping", object);
         }
     };
@@ -2095,7 +2125,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
             mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 
-            localFileManager= new LocalFileManager(this);
+            localFileManager = new LocalFileManager(this);
             rootAudio = localFileManager.createAudioFolder();
             /*
             File file = new File(root.getAbsolutePath() + "/UDTalks/Audios");
@@ -2161,7 +2191,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     private void cancelRecording() {
-        localFileManager= new LocalFileManager(this);
+        localFileManager = new LocalFileManager(this);
         localFileManager.deleteAudioFile(fileName);
         try {
             mRecorder.stop();
@@ -2264,14 +2294,14 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
             Log.d("imgDecodable", imgDecodableString);
             File file = new File(imgDecodableString);
             compressImage(file);
-            localFileManager= new LocalFileManager(this);
+            localFileManager = new LocalFileManager(this);
             localFileManager.createImageFolder();
             try {
-                File file1=localFileManager.saveMedia(file, ".jpg");
-                localPath=file1.getAbsolutePath();
-                Log.d("No_internet_data",localPath);
+                File file1 = localFileManager.saveMedia(file, ".jpg");
+                localPath = file1.getAbsolutePath();
+                Log.d("No_internet_data", localPath);
             } catch (IOException e) {
-                Log.d("LocalImage",e.toString());
+                Log.d("LocalImage", e.toString());
             }
             // UploadFile(imgDecodableString, sd.getKeyId(), ".jpg", "img");
 
@@ -2283,15 +2313,15 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
             Log.e("ERERER", data.getStringExtra("data"));
             File file = new File(dataget);
             compressImage(file);
-            localFileManager= new LocalFileManager(this);
+            localFileManager = new LocalFileManager(this);
             localFileManager.createImageFolder();
             try {
-                File file1=localFileManager.saveMedia(file, ".jpg");
-                localPath=file1.getAbsolutePath();
-                Log.d("No_internet_data",localPath);
+                File file1 = localFileManager.saveMedia(file, ".jpg");
+                localPath = file1.getAbsolutePath();
+                Log.d("No_internet_data", localPath);
 
             } catch (IOException e) {
-                Log.d("LocalImage",e.toString());
+                Log.d("LocalImage", e.toString());
             }
             //   UploadFile(dataget, sd.getKeyId(), ".jpg", "img");
 
@@ -2356,13 +2386,13 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
             try {
                 videoPath = getFilePath(ChatActivity.this, videoUri);
                 File file = new File(videoPath);
-                localFileManager= new LocalFileManager(this);
+                localFileManager = new LocalFileManager(this);
                 localFileManager.createVideoFoler();
                 try {
-                    File file1=localFileManager.saveMedia(file,".mp4");
-                    localPath=file1.getAbsolutePath();
+                    File file1 = localFileManager.saveMedia(file, ".mp4");
+                    localPath = file1.getAbsolutePath();
                 } catch (IOException e) {
-                    Log.d("LocalVideo",e.toString());
+                    Log.d("LocalVideo", e.toString());
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();
@@ -2422,15 +2452,15 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                             //  uploadFile(strStorageCameraUri, "img");
                             File file = new File(strStorageCameraUri);
                             compressImage(file);
-                            Log.d("Image-take",file.getAbsolutePath());
-                            localFileManager= new LocalFileManager(this);
+                            Log.d("Image-take", file.getAbsolutePath());
+                            localFileManager = new LocalFileManager(this);
                             localFileManager.createImageFolder();
                             try {
-                                File file1=localFileManager.saveMedia(file,".jpg");
-                                localPath=file1.getAbsolutePath();
-                                Log.d("No_internet_data",localPath);
+                                File file1 = localFileManager.saveMedia(file, ".jpg");
+                                localPath = file1.getAbsolutePath();
+                                Log.d("No_internet_data", localPath);
                             } catch (IOException e) {
-                                Log.d("LocalImage",e.toString());
+                                Log.d("LocalImage", e.toString());
                             }
                             // UploadFile(strStorageCameraUri, sd.getKeyId(), ".jpg", "img");
                             //Toast.makeText(ChatActivity.this,"Done",Toast.LENGTH_SHORT).show();
@@ -2451,13 +2481,13 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                     try {
                         videoPath = parent + "/" + file1;
                         File file = new File(videoPath);
-                        localFileManager= new LocalFileManager(this);
+                        localFileManager = new LocalFileManager(this);
                         localFileManager.createVideoFoler();
                         try {
-                            File file11=localFileManager.saveMedia(file,".mp4");
-                            localPath=file11.getAbsolutePath();
+                            File file11 = localFileManager.saveMedia(file, ".mp4");
+                            localPath = file11.getAbsolutePath();
                         } catch (IOException e) {
-                            Log.d("LocalVideo",e.toString());
+                            Log.d("LocalVideo", e.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

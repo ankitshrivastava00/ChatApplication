@@ -68,6 +68,18 @@
                 android:textColor="#FFF"
                 android:textSize="12sp"
                 android:visibility="gone" />
+            <TextView
+                android:id="@+id/typingStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nameTv"
+                android:layout_gravity="center|left"
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:text="Online"
+                android:textColor="#FFF"
+                android:textSize="12sp"
+                android:visibility="gone" />
             <!--
                         <TextView
                             android:id="@+id/typingStatus"
