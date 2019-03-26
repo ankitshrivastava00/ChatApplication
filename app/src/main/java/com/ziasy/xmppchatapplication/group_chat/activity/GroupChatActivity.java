@@ -240,7 +240,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
     private AlertDialogHelper alertDialogHelper;
     //  TOOLBAR CHANGE
     private LinearLayout linear_chat_option;
-    private ImageView btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn, btnReplyCab;
+    private ImageView btnForwordCab, btndeleteCab, cab_bomb_btn, btnUnselect,cab_copy_btn, btnReplyCab;
     private ArrayList<JsonModelForChat> multiselect_list;
     private ArrayList<String> copy_list;
     private ClipboardManager myClipboard;
@@ -289,7 +289,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
         Mapbox.getInstance(this, getString(R.string.access_token));
         //Mapbox.getInstance(this, "pk.eyJ1IjoiYW5raXRzaHJpdmFzdGF2IiwiYSI6ImNqcDhwZTQ1cTA0MjAzcXJwcmZ3dm01YmIifQ.z3u-alUA91GSmuFF65dHCw");
         alertDialogHelper = new AlertDialogHelper(this);
-/*
+        /*
         progressDialog = new ProgressDialog(GroupChatActivity.this);
         progressDialog.setMessage("please wait");
         progressDialog.setCancelable(false);*/
@@ -297,7 +297,6 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
         mSocket = app.getSocket();
         IntentFilter iff = new IntentFilter("INTERNET");
         LocalBroadcastManager.getInstance(this).registerReceiver(onNotice, iff);
-
 
         backImg = (ImageView) findViewById(R.id.backImg);
         final View rootView = findViewById(R.id.personalChatLayout);
@@ -311,6 +310,21 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
         btnReplyCab = (ImageView) findViewById(R.id.btnReplyCab);
         cab_bomb_btn = (ImageView) findViewById(R.id.cab_bomb_btn);
         cab_copy_btn = (ImageView) findViewById(R.id.cab_copy_btn);
+        btnUnselect = (ImageView) findViewById(R.id.btnUnselect);
+        btnUnselect.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (multiselect_list.size() > 0) {
+
+                    linear_chat_option.setVisibility(View.GONE);
+                    isMultiSelect = false;
+                    multiselect_list = new ArrayList<JsonModelForChat>();
+                    chatAdapter.selected_usersList = multiselect_list;
+                    chatAdapter.notifyDataSetChanged();
+                } else {
+                }
+            }
+        });
 
         //   btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn ;
         btnForwordCab.setOnClickListener(new OnClickListener() {
@@ -341,7 +355,6 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                 } else {
                     Toast.makeText(getApplicationContext(), "Kya Hua", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         btndeleteCab.setOnClickListener(new OnClickListener() {
@@ -366,23 +379,17 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                     chatAdapter.selected_usersList = multiselect_list;
                     chatAdapter.notifyDataSetChanged();
 
-
                     Toast.makeText(getApplicationContext(), "Delete", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Kya Hua", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
 
         cab_bomb_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 alertDialogHelper.showAlertDialog("", "Delete Chat", "Delete For Everyone", "CANCEL", 1, false);
-
-
             }
         });
 
@@ -424,6 +431,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                         chatAdapter.filter("");
                     }
                 }
+                scrollTodown();
             }
         });
 
@@ -465,6 +473,14 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
         recordView.setOnRecordListener(new OnRecordListener() {
             @Override
             public void onStart() {
+                if (chatAdapter!=null) {
+                    chatAdapter.clearMusic();
+                    for (JsonModelForChat model:list) {
+                        model.setSelect(false);
+                    }
+                    chatAdapter.notifyDataSetChanged();                }
+                hideEditText.setVisibility(View.GONE);
+                recordView.setVisibility(View.VISIBLE);
                 boolean attached_file6 = Permission.checkReadExternalStoragePermission(GroupChatActivity.this);
                 boolean recording = Permission.checkRecordPermission(GroupChatActivity.this);
                 boolean recordingWrite = Permission.permissionForExternal(GroupChatActivity.this);
@@ -475,8 +491,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                                 startRecording();
                                 Log.d("RecordView", "onStart");
                                 //       Toast.makeText(GroupChatActivity.this, "OnStartRecord", Toast.LENGTH_SHORT).show();
-                                hideEditText.setVisibility(View.GONE);
-                                recordView.setVisibility(View.VISIBLE);
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -488,6 +503,8 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
 
             @Override
             public void onCancel() {
+                hideEditText.setVisibility(View.VISIBLE);
+                recordView.setVisibility(View.GONE);
                 boolean attached_file6 = Permission.checkReadExternalStoragePermission(GroupChatActivity.this);
                 boolean recording = Permission.checkRecordPermission(GroupChatActivity.this);
                 boolean recordingWrite = Permission.permissionForExternal(GroupChatActivity.this);
@@ -496,8 +513,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                         if (recording) {
                             Log.d("RecordView", "onCancel");
                             cancelRecording();
-                            hideEditText.setVisibility(View.VISIBLE);
-                            recordView.setVisibility(View.GONE);
+
 
                         }
                     }
@@ -506,6 +522,8 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
 
             @Override
             public void onFinish(long recordTime) {
+                hideEditText.setVisibility(View.VISIBLE);
+                recordView.setVisibility(View.GONE);
                 boolean attached_file6 = Permission.checkReadExternalStoragePermission(GroupChatActivity.this);
                 boolean recording = Permission.checkRecordPermission(GroupChatActivity.this);
                 boolean recordingWrite = Permission.permissionForExternal(GroupChatActivity.this);
@@ -515,8 +533,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                             String time = getHumanTimeText(recordTime);
                             // Toast.makeText(GroupChatActivity.this, "onFinishRecord - Recorded Time is: " + time, Toast.LENGTH_SHORT).show();
                             Log.d("RecordView", "onFinish");
-                            hideEditText.setVisibility(View.VISIBLE);
-                            recordView.setVisibility(View.GONE);
+
                             Log.d("RecordTime", time);
                             stopRecording();
                         }
@@ -526,6 +543,8 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
 
             @Override
             public void onLessThanSecond() {
+                hideEditText.setVisibility(View.VISIBLE);
+                recordView.setVisibility(View.GONE);
                 boolean attached_file6 = Permission.checkReadExternalStoragePermission(GroupChatActivity.this);
                 boolean recording = Permission.checkRecordPermission(GroupChatActivity.this);
                 boolean recordingWrite = Permission.permissionForExternal(GroupChatActivity.this);
@@ -533,8 +552,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                     if (recordingWrite) {
                         if (recording) {
                             //  Toast.makeText(GroupChatActivity.this, "OnLessThanSecond", Toast.LENGTH_SHORT).show();
-                            hideEditText.setVisibility(View.VISIBLE);
-                            recordView.setVisibility(View.GONE);
+
                             cancelRecording();
                             Log.d("RecordView", "onLessThanSecond");
                         }
@@ -548,6 +566,8 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
         recordView.setOnBasketAnimationEndListener(new OnBasketAnimationEnd() {
             @Override
             public void onAnimationEnd() {
+                hideEditText.setVisibility(View.VISIBLE);
+                recordView.setVisibility(View.GONE);
                 boolean attached_file6 = Permission.checkReadExternalStoragePermission(GroupChatActivity.this);
                 boolean recording = Permission.checkRecordPermission(GroupChatActivity.this);
                 boolean recordingWrite = Permission.permissionForExternal(GroupChatActivity.this);
@@ -555,8 +575,7 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                     if (recordingWrite) {
                         if (recording) {
                             Log.d("RecordView", "Basket Animation Finished");
-                            hideEditText.setVisibility(View.VISIBLE);
-                            recordView.setVisibility(View.GONE);
+
                         }
                     }
                 }
@@ -1047,8 +1066,8 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
             }
         });
 
-        chatAdapter = new GroupChatAdapter(GroupChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list, admin, mode);
-        msgListView.setAdapter(chatAdapter);
+     //   chatAdapter = new GroupChatAdapter(GroupChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list, admin, mode);
+      //  msgListView.setAdapter(chatAdapter);
         chatName.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1095,7 +1114,24 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
             multiselect_list.add(list.get(position));
             copy_list.add(list.get(position).getMessage());
         }
+        for (JsonModelForChat bomb:multiselect_list){
+            if (!bomb.getSendName().equalsIgnoreCase(sd.getUserName())){
+                cab_bomb_btn.setVisibility(View.GONE);
+break;
+            }else {
+                cab_bomb_btn.setVisibility(View.VISIBLE);
 
+            }
+        }
+        for (JsonModelForChat model:multiselect_list){
+            if (!model.getType().equalsIgnoreCase("msg")){
+                cab_copy_btn.setVisibility(View.GONE);
+
+                break;
+            }else {
+                cab_copy_btn.setVisibility(View.VISIBLE);
+            }
+        }
         if (multiselect_list.size() > 0) {
             linear_chat_option.setVisibility(View.VISIBLE);
             if (multiselect_list.size() == 1) {
@@ -1764,12 +1800,12 @@ public class GroupChatActivity extends AppCompatActivity implements OnClickListe
                             //             list.addAll(DBUtil.fetchAllChatList(GroupChatActivity.this));
                             //list.add(new ChatModel(message, send_id, rcv_id, time, date, isread, deliver, "All"));
                         }
-                        if (chatAdapter != null) {
+                       /* if (chatAdapter != null) {
                             chatAdapter.notifyDataSetChanged();
-                        } else {
+                        } else {*/
                             chatAdapter = new GroupChatAdapter(GroupChatActivity.this, msgListView, R.layout.chat_list_item, list, multiselect_list, admin, mode);
                             msgListView.setAdapter(chatAdapter);
-                        }
+                      //  }
 
 
                         //    progressDialog.dismiss();

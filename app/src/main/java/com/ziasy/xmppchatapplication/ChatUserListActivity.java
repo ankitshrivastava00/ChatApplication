@@ -38,6 +38,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
 import com.ziasy.xmppchatapplication.ChatModulSocket.ChatApplication;
+import com.ziasy.xmppchatapplication.common.AlwaysRunning;
 import com.ziasy.xmppchatapplication.common.DrawableClickListener;
 import com.ziasy.xmppchatapplication.common.SessionManagement;
 import com.ziasy.xmppchatapplication.group_chat.activity.CreateGroupActivity;
@@ -93,7 +94,8 @@ public class ChatUserListActivity extends AppCompatActivity implements OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_list);
-
+        Intent i=new Intent(ChatUserListActivity.this, AlwaysRunning.class);
+        startService(i);
         Pushy.listen(ChatUserListActivity.this);
         localDBHelper= new LocalDBHelper(ChatUserListActivity.this);
         toolbar = (Toolbar) findViewById(R.id.tb_chatlist);

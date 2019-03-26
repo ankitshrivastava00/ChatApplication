@@ -222,7 +222,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
     private AlertDialogHelper alertDialogHelper;
     //  TOOLBAR CHANGE
     private LinearLayout linear_chat_option;
-    private ImageView btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn, btnReplyCab;
+    private ImageView btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn, btnReplyCab,btnUnselect;
     private ArrayList<JsonModelForChat> multiselect_list;
     private ArrayList<String> copy_list;
     private ClipboardManager myClipboard;
@@ -315,13 +315,14 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         cab_bomb_btn = (ImageView) findViewById(R.id.cab_bomb_btn);
         cab_copy_btn = (ImageView) findViewById(R.id.cab_copy_btn);
         btnReplyCab = (ImageView) findViewById(R.id.btnReplyCab);
+        btnUnselect = (ImageView) findViewById(R.id.btnUnselect);
         localDBHelper= new LocalDBHelper(this);
         //   btnForwordCab, btndeleteCab, cab_bomb_btn, cab_copy_btn ;
 
         btnReplyCab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ChatActivity.this, "On Progress", Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(ChatActivity.this, "On Progress", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -387,6 +388,21 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
 
+        btnUnselect.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (multiselect_list.size() > 0) {
+
+                    linear_chat_option.setVisibility(View.GONE);
+                    isMultiSelect = false;
+                    multiselect_list = new ArrayList<JsonModelForChat>();
+                    chatAdapter.selected_usersList = multiselect_list;
+                    chatAdapter.notifyDataSetChanged();
+                } else {
+                 }
+            }
+        });
+
         cab_bomb_btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -427,6 +443,7 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
                         chatAdapter.filter("");
                     }
                 }
+                scrollTodown();
             }
         });
         searchEt.setDrawableClickListener(new DrawableClickListener() {
@@ -465,8 +482,16 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         recordView.setOnRecordListener(new OnRecordListener() {
             @Override
             public void onStart() {
+                if (chatAdapter!=null) {
+                    chatAdapter.clearMusic();
+                    for (JsonModelForChat model:list) {
+                        model.setSelect(false);
+                    }
+                    chatAdapter.notifyDataSetChanged();
+                }
                 hideEditText.setVisibility(View.GONE);
                 recordView.setVisibility(View.VISIBLE);
+
                 boolean attached_file6 = Permission.checkReadExternalStoragePermission(ChatActivity.this);
                 boolean recording = Permission.checkRecordPermission(ChatActivity.this);
                 boolean recordingWrite = Permission.permissionForExternal(ChatActivity.this);
@@ -1080,13 +1105,11 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setStackFromEnd(true);
-
         msgListView.setLayoutManager(layoutManager);
     }
 
     public void multi_select(int position) {
         //  if (mActionMode != null) {
-
 
         if (multiselect_list.contains(list.get(position))) {
             multiselect_list.remove(list.get(position));
@@ -1095,6 +1118,24 @@ public class ChatActivity extends AppCompatActivity implements OnClickListener, 
 
             multiselect_list.add(list.get(position));
             copy_list.add(list.get(position).getMessage());
+        }
+        for (JsonModelForChat bomb:multiselect_list){
+            if (!bomb.getSendName().equalsIgnoreCase(sd.getKeyId())){
+                cab_bomb_btn.setVisibility(View.GONE);
+                break;
+            }else {
+                cab_bomb_btn.setVisibility(View.VISIBLE);
+
+            }
+        }
+        for (JsonModelForChat model:multiselect_list){
+            if (!model.getType().equalsIgnoreCase("msg")){
+                cab_copy_btn.setVisibility(View.GONE);
+
+                break;
+            }else {
+                cab_copy_btn.setVisibility(View.VISIBLE);
+            }
         }
 
         if (multiselect_list.size() > 0) {

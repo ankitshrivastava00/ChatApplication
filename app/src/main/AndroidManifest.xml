@@ -92,6 +92,7 @@
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <service android:name=".common.AlwaysRunning"></service>
 
         <activity
             android:name=".LoginActivity"

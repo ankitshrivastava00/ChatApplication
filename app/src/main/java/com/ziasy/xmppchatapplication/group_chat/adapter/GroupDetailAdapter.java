@@ -7,20 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.ziasy.xmppchatapplication.ProfileActivity;
 import com.ziasy.xmppchatapplication.R;
-import com.ziasy.xmppchatapplication.User;
 import com.ziasy.xmppchatapplication.common.SessionManagement;
-import com.ziasy.xmppchatapplication.group_chat.GridItemViewForGroup;
 import com.ziasy.xmppchatapplication.group_chat.activity.GroupProfileActivity;
 import com.ziasy.xmppchatapplication.group_chat.model.GroupUserModel;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class GroupDetailAdapter extends ArrayAdapter<GroupUserModel> {
     private Context context;

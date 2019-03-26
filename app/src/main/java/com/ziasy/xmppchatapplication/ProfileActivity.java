@@ -63,7 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
                 boolean callPermission = Permission.checkPermisionForCALL_PHONE(ProfileActivity.this);
                 if (callPermission) {
                     if (!sd.getKeyId().equalsIgnoreCase(rid)){
-
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + userName));
                     if (ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {

@@ -115,7 +115,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }        // if message is mine then align to right
         if (message.getSendName().equalsIgnoreCase(sd.getKeyId())) {
 
-           /* if (message.getResponse().equalsIgnoreCase("All")) {*/
+            if (message.getResponse().equalsIgnoreCase("All")) {
                 if (message.getIsread().equalsIgnoreCase("true") && message.getDeliver().equalsIgnoreCase("true")) {
                     viewHolder.tickMarkFirstOut.setImageResource(R.drawable.viewed);
                     viewHolder.tickMarkFirstOutImage.setImageResource(R.drawable.viewed);
@@ -144,7 +144,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                     viewHolder.tickMarkLocation.setImageResource(R.drawable.uploaded);
                     viewHolder.tickMarkFirstOutAudio.setImageResource(R.drawable.uploaded);
                 }
-          /*  } else if (message.getResponse().equalsIgnoreCase("read")) {
+
+            } else if (message.getResponse().equalsIgnoreCase("read")) {
                 viewHolder.tickMarkFirstOut.setImageResource(R.drawable.viewed);
                 viewHolder.tickMarkFirstOutImage.setImageResource(R.drawable.viewed);
                 viewHolder.tickMarkFirstOutEmoji.setImageResource(R.drawable.viewed);
@@ -171,7 +172,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 viewHolder.tickMarkContactOut.setImageResource(R.drawable.undelivered);
                 viewHolder.tickMarkLocation.setImageResource(R.drawable.undelivered);
                 viewHolder.tickMarkFirstOutAudio.setImageResource(R.drawable.undelivered);
-            }*/
+            }
 
             if (message.getDate().equalsIgnoreCase("")) {
                 viewHolder.relativeDate.setVisibility(View.GONE);
@@ -228,8 +229,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                             }
 
                         }*/
+                            for (JsonModelForChat model:chatMessageList) {
+                                //if (model.isSelect == true) {
+                                    model.setSelect(false);
+                               // }
+                            }
                             message.setSelect(true);
-
                             //  notifyDataSetChanged();
                             playSong(message,message.getMessage(), viewHolder.outgoing_seekbar, position, viewHolder.outgoing_image_view_audio, viewHolder.outgoing_image_view_audio_stop, viewHolder.incoming_image_view_audio_stop, viewHolder.incoming_image_view_audio);
                             if (message.isSelect()) {
@@ -238,9 +243,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                                 viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
                                 viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
                             }
-
                             // Toast.makeText(context, "PLAY" + position, Toast.LENGTH_SHORT).show();
-
                         }
                     });
                     viewHolder.outgoing_image_view_audio_stop.setOnClickListener(new View.OnClickListener() {
@@ -293,7 +296,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                                 .load(new File(message.getMessage()))
                                 .into(viewHolder.outgoing_video_IV);
                     }else{
-
                         Glide.with(context)
                                 .load(message.getMessage())
                                 .into(viewHolder.outgoing_video_IV);
@@ -308,6 +310,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                         }
                     });
                     break;
+
                 case "emoji":
                     viewHolder.incoming_audio_relative.setVisibility(View.GONE);
                     viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
@@ -608,9 +611,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                     } else {
                         viewHolder.txtincomming_pdf.setText("Word File");
                         viewHolder.incoming_doc_icon.setImageResource(R.drawable.word);
-
                     }
-
                     viewHolder.incoming_pdf_time.setText(message.getTime());
                     viewHolder.incoming_linear_click.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -632,20 +633,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                     viewHolder.parent_layout.setVisibility(View.GONE);
                     viewHolder.out_image.setVisibility(View.GONE);
                     viewHolder.incoming_image.setVisibility(View.GONE);
-
                     viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
                     viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
                     viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
                     viewHolder.incoming_linear_contact.setVisibility(View.GONE);
                     viewHolder.incoming_video_cab.setVisibility(View.VISIBLE);
-
                     viewHolder.out_pdf.setVisibility(View.GONE);
                     viewHolder.out_video_cab.setVisibility(View.GONE);
-
                     viewHolder.incoming_pdf.setVisibility(View.GONE);
-
                     viewHolder.incoming_video_time.setText(message.getTime());
-
                     Glide.with(context)
                             //.load("https://www.demonuts.com/Demonuts/smallvideo.mp4")
                             .load(message.getMessage())
@@ -672,17 +668,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                     viewHolder.layout.setVisibility(View.GONE);
                     viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
                     viewHolder.incoming_pdf.setVisibility(View.GONE);
-
                     viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
                     viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
                     viewHolder.incoming_linear_contact.setVisibility(View.GONE);
                     viewHolder.incoming_video_cab.setVisibility(View.GONE);
                     viewHolder.out_pdf.setVisibility(View.GONE);
-
                     viewHolder.parent_layout.setVisibility(View.GONE);
-
                     viewHolder.incoming_audio_time.setText(message.getTime());
-
 
                     if (message.isSelect()) {
                         viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
@@ -695,9 +687,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                         }
                     } else if (!message.isSelect()) {
 
-
                         viewHolder.incoming_seekbar.setProgress(0);
-
                         viewHolder.incoming_image_view_audio.setVisibility(View.VISIBLE);
                         viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
                         viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
@@ -714,8 +704,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                             }
                         }
 */
-
-                            message.setSelect(true);
+                            for (JsonModelForChat model:chatMessageList) {
+                             //   if (model.isSelect == true) {
+                                    model.setSelect(false);
+                             //   }
+                            }
+                       message.setSelect(true);
 
                             //  notifyDataSetChanged();
                             playSong(message,message.getMessage(), viewHolder.incoming_seekbar, position,viewHolder.outgoing_image_view_audio, viewHolder.outgoing_image_view_audio_stop, viewHolder.incoming_image_view_audio_stop, viewHolder.incoming_image_view_audio);
@@ -1164,71 +1158,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             tickMarkFirstOutVideo = (ImageView) itemView.findViewById(R.id.tickMarkFirstOutVideo);
             tickMarkFirstOutPDF = (ImageView) itemView.findViewById(R.id.tickMarkFirstOutPDF);
             tickMarkFirstOutEmoji = (ImageView) itemView.findViewById(R.id.tickMarkFirstOutEmoji);
-            //  initializeMapView();
-            // Keep track of MapView
-         /*   mMaps.add(outgoing_location_map);
-            mMapsincoming.add(incoming_location_map);*/
-        }
-/*
-        @Override
-        public void onMapReady(MapboxMap googleMap) {
-            try {
-                MapsInitializer.initialize(context);
-                map_incoming = googleMap;
-                map = googleMap;
-                JsonModelForChat data = (JsonModelForChat) outgoing_location_map.getTag();
-                JsonModelForChat dataIncoming = (JsonModelForChat) incoming_location_map.getTag();
-                if (data != null) {
-                    setMapLocation(map, data);
-                }
-                if (dataIncoming != null) {
-                    setMapLocationIncoming(map_incoming, dataIncoming);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
-/*
-        public void initializeMapView() {
-            try {
-                if (outgoing_location_map != null) {
-                    // Initialise the MapView
-                    outgoing_location_map.onCreate(null);
-                    // Set the map ready callback to receive the GoogleMap object
-                    outgoing_location_map.getMapAsync(this);
-                }
-                if (incoming_location_map != null) {
-                    // Initialise the MapView
-                    incoming_location_map.onCreate(null);
-                    // Set the map ready callback to receive the GoogleMap object
-                    incoming_location_map.getMapAsync(this);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
 
-        /*@Override
-        public void onMapReady(MapboxMap mapboxMap) {
-        }*/
-    }
-/*
-    private static void setMapLocation(MapboxMap map, JsonModelForChat data) {
-        try {
-            // Add a marker for this item and set the camera
-            String[] strLocaion = data.getMessage().split(",");
-            Double lat = Double.valueOf(strLocaion[0]);
-            Double lang = Double.valueOf(strLocaion[1]);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lang), 13f));
-            map.addMarker(new MarkerOptions()
-                    .position(new LatLng(lat, lang))
-                    .title(strLocaion[2])
-                    .snippet("Illinois")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }*/
+    }
 
     // Filter Class
     public void filter(String charText) {
@@ -1255,21 +1187,4 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             e.printStackTrace();
         }
     }
-
-   /* private static void setMapLocationIncoming(MapboxMap map, JsonModelForChat data) {
-        try {
-            // Add a marker for this item and set the camera
-            String[] strLocaion = data.getMessage().split(",");
-            Double lat = Double.valueOf(strLocaion[0]);
-            Double lang = Double.valueOf(strLocaion[1]);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lang), 13f));
-            map.addMarker(new MarkerOptions()
-                    .position(new LatLng(lat, lang))
-                    .title(strLocaion[2])
-                    .snippet("Illinois")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 }

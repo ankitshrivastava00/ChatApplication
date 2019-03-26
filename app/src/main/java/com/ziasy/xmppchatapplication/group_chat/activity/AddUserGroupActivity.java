@@ -197,9 +197,11 @@ public class AddUserGroupActivity extends AppCompatActivity implements OnClickLi
                                     e.printStackTrace();
                                 }
                                 if (result.equalsIgnoreCase("Success")){
-                                    finish();
+                                   // finish();
                                     attemptSend(user,"added");
 
+                                //    attemptSendTest(user,"firsttest");
+                                    finish();
                                 }
 
                                 pd.dismiss();
@@ -293,7 +295,29 @@ public class AddUserGroupActivity extends AppCompatActivity implements OnClickLi
         object.addProperty("deliver", "false");
         object.addProperty("senderid", sd.getUserName());
         mSocket.emit("sendMessageGroup", object);
-        Log.d("SEND_SINGLE", object.toString());
+        Log.d("ADDUSERGROUP", object.toString());
+
+    }
+    private void attemptSendTest(String message, String type) {
+        ChatApplication app = (ChatApplication) getApplication();
+        mSocket = app.getSocket();
+        mSocket.connect();
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+        JsonObject object = new JsonObject();
+        object.addProperty("reciverid", rid);
+        object.addProperty("message", message);
+        object.addProperty("dtype", type);
+        object.addProperty("sname", message);
+        object.addProperty("did", "asdfasdf");
+        object.addProperty("uid", getSaltString());
+        object.addProperty("datetime", formattedDate);
+        object.addProperty("isread", "false");
+        object.addProperty("deliver", "false");
+        object.addProperty("senderid", message);
+        mSocket.emit("sendMessageGroup", object);
+        Log.d("ADDUSERGROUP", object.toString());
 
     }
 

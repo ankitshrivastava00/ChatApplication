@@ -28,23 +28,25 @@
                 android:background="@drawable/reciever_bubble"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/incoming_contact_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:gravity="center"
-                    android:text="Prashant"
-                    android:textColor="@color/black"
-                    android:textSize="17dp"
-                    android:textStyle="normal" />
+
 
                 <TextView
                     android:id="@+id/incoming_contact_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_marginTop="50dp"
+
                     android:text="9713172282"
+                    android:textColor="@color/black"
+                    android:textSize="17dp"
+                    android:textStyle="normal" />
+                <TextView
+                    android:id="@+id/incoming_contact_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Prashant"
                     android:textColor="@color/black"
                     android:textSize="17dp"
                     android:textStyle="normal" />

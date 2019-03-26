@@ -182,332 +182,329 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
                 viewHolder.relativeDate.setVisibility(View.VISIBLE);
                 viewHolder.dateTextView.setText(message.getDate());
             }
-            if (message.getType().equalsIgnoreCase("img")) {
 
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                //  viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.VISIBLE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                if (mode.equals("offline")){
-                    Glide.with(context)
-                            .load(new File(message.getMessage()))
-                            .into(viewHolder.outgoing_image_IV);
+            switch (message.getType()){
+                case "img":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    //  viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.VISIBLE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    if (mode.equals("offline")){
+                        Glide.with(context)
+                                .load(new File(message.getMessage()))
+                                .into(viewHolder.outgoing_image_IV);
 
-                }else{
+                    }else{
 
-                    Glide.with(context)
-                            .load(message.getMessage())
-                            .into(viewHolder.outgoing_image_IV);
-                }
+                        Glide.with(context)
+                                .load(message.getMessage())
+                                .into(viewHolder.outgoing_image_IV);
+                    }
 
-                viewHolder.outgoing_image_time.setText(message.getTime());
-                viewHolder.outgoing_image_IV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    viewHolder.outgoing_image_time.setText(message.getTime());
+                    viewHolder.outgoing_image_IV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
                       /*  ArrayList<String>imgage=new ArrayList<>();
                         imgage.add(message.getMessage());*/
-                        Intent i = new Intent(context, GroupFullScreenViewActivity.class);
-                        //  i.putStringArrayListExtra("image", imgage);
-                        i.putExtra("id", message.getMid());
-                        i.putExtra("rid", message.getRecieverName());
-                        context.startActivityForResult(i,88);
+                            Intent i = new Intent(context, GroupFullScreenViewActivity.class);
+                            //  i.putStringArrayListExtra("image", imgage);
+                            i.putExtra("id", message.getMid());
+                            i.putExtra("rid", message.getRecieverName());
+                            context.startActivityForResult(i,88);
 
                         /*   Intent i = new Intent(context, ViewFullImageActivity.class);
                         i.putStringArrayListExtra("image", imgage);
 
                         context.startActivity(i);*/
 
-                    }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("pdf")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.VISIBLE);
-                //     viewHolder.image_view_audiio.setVisibility(View.GONE);
-                //     viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                String str = message.getMessage();
-                if (str.toLowerCase().endsWith(".xls") || str.toLowerCase().endsWith(".xlsb") || str.toLowerCase().endsWith(".xlsm") || str.toLowerCase().endsWith(".xlsx") || str.toLowerCase().endsWith(".xlt") || str.toLowerCase().endsWith(".xltx")) {
-                    viewHolder.txtoutgoing_pdf.setText("Excel File");
-                    viewHolder.outgoing_doc_icon.setImageResource(R.drawable.excel);
-                } else if (str.toLowerCase().endsWith(".pdf")) {
-                    viewHolder.txtoutgoing_pdf.setText("PDF File");
-                    viewHolder.outgoing_doc_icon.setImageResource(R.drawable.pdf);
-                } else {
-                    viewHolder.txtoutgoing_pdf.setText("Word File");
-                    viewHolder.outgoing_doc_icon.setImageResource(R.drawable.word);
+                        }
+                    });
+                    break;
+                case "pdf":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.VISIBLE);
+                    //     viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    //     viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    String str = message.getMessage();
+                    if (str.toLowerCase().endsWith(".xls") || str.toLowerCase().endsWith(".xlsb") || str.toLowerCase().endsWith(".xlsm") || str.toLowerCase().endsWith(".xlsx") || str.toLowerCase().endsWith(".xlt") || str.toLowerCase().endsWith(".xltx")) {
+                        viewHolder.txtoutgoing_pdf.setText("Excel File");
+                        viewHolder.outgoing_doc_icon.setImageResource(R.drawable.excel);
+                    } else if (str.toLowerCase().endsWith(".pdf")) {
+                        viewHolder.txtoutgoing_pdf.setText("PDF File");
+                        viewHolder.outgoing_doc_icon.setImageResource(R.drawable.pdf);
+                    } else {
+                        viewHolder.txtoutgoing_pdf.setText("Word File");
+                        viewHolder.outgoing_doc_icon.setImageResource(R.drawable.word);
 
-                }
-                viewHolder.outgoing_pdf_time.setText(message.getTime());
-                viewHolder.out_lineat_bubble.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    }
+                    viewHolder.outgoing_pdf_time.setText(message.getTime());
+                    viewHolder.out_lineat_bubble.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
                      /*   Intent i = new Intent(context, PdfViewr.class);
                         i.putExtra("pdf", message.getMessage());
                         context.startActivity(i);*/
-                        String pad= message.getMessage().replace(Confiq.RETURN_IMAGE_URL,"");
-                        Utils.downloadFile(context,  message.getMessage(), pad);
+                            String pad= message.getMessage().replace(Confiq.RETURN_IMAGE_URL,"");
+                            Utils.downloadFile(context,  message.getMessage(), pad);
+                        }
+                    });
+                    break;
+                case "video":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    //    viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.VISIBLE);
+
+                    if (mode.equals("offline")){
+                        Glide.with(context)
+                                .load(new File(message.getMessage()))
+                                .into(viewHolder.outgoing_video_IV);
+
+                    }else{
+
+                        Glide.with(context)
+                                .load(message.getMessage())
+                                .into(viewHolder.outgoing_video_IV);
                     }
-                });
-                return;
-
-            } else if (message.getType().equalsIgnoreCase("video")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                //    viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.VISIBLE);
-
-                if (mode.equals("offline")){
-                    Glide.with(context)
-                            .load(new File(message.getMessage()))
-                            .into(viewHolder.outgoing_video_IV);
-
-                }else{
-
-                    Glide.with(context)
-                            .load(message.getMessage())
-                            .into(viewHolder.outgoing_video_IV);
-                }
                 /*Glide.with(context)
                         .load(message.getMessage())
                         .into(viewHolder.outgoing_video_IV);*/
 
 
-                viewHolder.outgoing_video_time.setText(message.getTime());
+                    viewHolder.outgoing_video_time.setText(message.getTime());
 
-                viewHolder.out_video_cab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(context, VideoAvtivity.class);
-                        i.putExtra("video", message.getMessage());
-                        context.startActivity(i);
-                    }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("audio")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.VISIBLE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                //     viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                //     viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_time.setText(message.getTime());
-
-                if (message.isSelect()) {
-                    viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
-                    viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
-                    viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
-                    viewHolder.outgoing_image_view_audio_stop.setVisibility(View.VISIBLE);
-
-                    if (mediaPlayer != null) {
-                        viewHolder.outgoing_seekbar.setProgress(mediaPlayer.getCurrentPosition());
-                    }
-                } else if (!message.isSelect()) {
-
-
-                    viewHolder.outgoing_seekbar.setProgress(0);
-
-                    viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
-                    viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
-                    viewHolder.outgoing_image_view_audio.setVisibility(View.VISIBLE);
-                    viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
-                }
-                viewHolder.outgoing_image_view_audio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                     /*   for (int i = 0; i < chatMessageList.size(); i++) {
-                            if (position == i) {
-                            } else {
-                                message.setSelect(false);
-                            }
-
-                        }*/
-                        message.setSelect(true);
-
-                        //  notifyDataSetChanged();
-                        playSong(message,message.getMessage(), viewHolder.outgoing_seekbar, position, viewHolder.outgoing_image_view_audio, viewHolder.outgoing_image_view_audio_stop, viewHolder.incoming_image_view_audio_stop, viewHolder.incoming_image_view_audio);
-
-                      //  playSong(message.getMessage(), viewHolder.outgoing_seekbar, position);
-                        if (message.isSelect()) {
-                            viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
-                            viewHolder.outgoing_image_view_audio_stop.setVisibility(View.VISIBLE);
-                            viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
-                            viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(context, VideoAvtivity.class);
+                            i.putExtra("video", message.getMessage());
+                            context.startActivity(i);
                         }
+                    });
+                    break;
+                case "audio":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.VISIBLE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    //     viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    //     viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_time.setText(message.getTime());
 
-                        // Toast.makeText(context, "PLAY" + position, Toast.LENGTH_SHORT).show();
+                    if (message.isSelect()) {
+                        viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
+                        viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
+                        viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                        viewHolder.outgoing_image_view_audio_stop.setVisibility(View.VISIBLE);
 
-                    }
-                });
-                viewHolder.outgoing_image_view_audio_stop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        message.setSelect(false);
-                        //  notifyDataSetChanged();
+                        if (mediaPlayer != null) {
+                            viewHolder.outgoing_seekbar.setProgress(mediaPlayer.getCurrentPosition());
+                        }
+                    } else if (!message.isSelect()) {
+
 
                         viewHolder.outgoing_seekbar.setProgress(0);
-                        try {
-                            mediaPlayer.stop();
-                            mediaPlayer.release();
-                            mediaPlayer = null;
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        //   Toast.makeText(context, "STOPs" + position, Toast.LENGTH_SHORT).show();
-                        if (!message.isSelect()) {
 
-                            viewHolder.outgoing_image_view_audio.setVisibility(View.VISIBLE);
-                            viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
-                            viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
-                            viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
-                        }
+                        viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                        viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
+                        viewHolder.outgoing_image_view_audio.setVisibility(View.VISIBLE);
+                        viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
                     }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("emoji")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.VISIBLE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                //  viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.outgoing_emoji_time.setText(message.getTime());
-                Resources res =  context.getResources();
-                String mDrawableName = message.getMessage();
-                int resID = res.getIdentifier(mDrawableName , "drawable", context.getPackageName());
-                Drawable drawable = res.getDrawable(resID );
-                viewHolder.outgoing_emoji_image.setImageDrawable(drawable );
+                    viewHolder.outgoing_image_view_audio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        for (JsonModelForChat model:chatMessageList) {
+                         //   if (model.isSelect == true) {
+                                model.setSelect(false);
+                           // }
+                        }
+                            Log.d("POSITIONGROUP",position+" ");
+                            message.setSelect(true);
 
-                return;
-            } else if (message.getType().equalsIgnoreCase("share")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                //    viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                //  viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.VISIBLE);
-                viewHolder.outgoing_contact_time.setText(message.getTime());
-                String str[] = message.getMessage().split(",");
-                viewHolder.outgoing_contact_number.setText(str[0]);
-                viewHolder.outgoing_contact_view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(context, ProfileActivity.class);
-                        i.putExtra("name", str[0]);
-                        i.putExtra("rid", str[2]);
-                        i.putExtra("did", str[3]);
-                        context.startActivity(i);
-                    }
-                });
-                return;
+                            //  notifyDataSetChanged();
+                            playSong(message,message.getMessage(), viewHolder.outgoing_seekbar, position, viewHolder.outgoing_image_view_audio, viewHolder.outgoing_image_view_audio_stop, viewHolder.incoming_image_view_audio_stop, viewHolder.incoming_image_view_audio);
 
-            } else if (message.getType().equalsIgnoreCase("location")) {
-                try {
+                            //  playSong(message.getMessage(), viewHolder.outgoing_seekbar, position);
+                            if (message.isSelect()) {
+                                viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
+                                viewHolder.outgoing_image_view_audio_stop.setVisibility(View.VISIBLE);
+                                viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
+                                viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                            }
+
+                            // Toast.makeText(context, "PLAY" + position, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                    viewHolder.outgoing_image_view_audio_stop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            message.setSelect(false);
+                            //  notifyDataSetChanged();
+
+                            viewHolder.outgoing_seekbar.setProgress(0);
+                            try {
+                                mediaPlayer.stop();
+                                mediaPlayer.release();
+                                mediaPlayer = null;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //   Toast.makeText(context, "STOPs" + position, Toast.LENGTH_SHORT).show();
+                            if (!message.isSelect()) {
+
+                                viewHolder.outgoing_image_view_audio.setVisibility(View.VISIBLE);
+                                viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
+                                viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
+                                viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                    break;
+                case "emoji":
                     viewHolder.incoming_audio_relative.setVisibility(View.GONE);
                     viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                    viewHolder.outgoing_location_relative.setVisibility(View.VISIBLE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.VISIBLE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    //  viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.outgoing_emoji_time.setText(message.getTime());
+                    Resources res =  context.getResources();
+                    String mDrawableName = message.getMessage();
+                    int resID = res.getIdentifier(mDrawableName , "drawable", context.getPackageName());
+                    Drawable drawable = res.getDrawable(resID );
+                    viewHolder.outgoing_emoji_image.setImageDrawable(drawable );
+                    break;
+                case "share":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
                     viewHolder.incoming_location_relative.setVisibility(View.GONE);
                     viewHolder.out_image.setVisibility(View.GONE);
                     viewHolder.out_video_cab.setVisibility(View.GONE);
                     viewHolder.incoming_image.setVisibility(View.GONE);
                     viewHolder.layout.setVisibility(View.GONE);
                     viewHolder.incoming_pdf.setVisibility(View.GONE);
-                    //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    //    viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
                     viewHolder.incoming_linear_contact.setVisibility(View.GONE);
                     viewHolder.incoming_video_cab.setVisibility(View.GONE);
                     viewHolder.out_pdf.setVisibility(View.GONE);
                     viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
                     viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
                     viewHolder.parent_layout.setVisibility(View.GONE);
-                    // viewHolder.image_view_audiio.setVisibility(View.GONE);
-                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                    viewHolder.outgoing_location_time.setText(message.getTime());
-
-                    String strLocation[] = message.getMessage().split(",");
-                    viewHolder.outgoing_location_address.setText(strLocation[2]);
-                    viewHolder.outgoing_view.setOnClickListener(new View.OnClickListener() {
+                    //  viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.VISIBLE);
+                    viewHolder.outgoing_contact_time.setText(message.getTime());
+                    String str1[] = message.getMessage().split(",");
+                    viewHolder.outgoing_contact_number.setText(str1[0]);
+                    viewHolder.outgoing_contact_view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String strL[] = message.getMessage().split(",");
-                            String currLocation = "&daddr=" + strL[2];
+                            Intent i = new Intent(context, ProfileActivity.class);
+                            i.putExtra("name", str1[0]);
+                            i.putExtra("rid", str1[2]);
+                            i.putExtra("did", str1[3]);
+                            context.startActivity(i);
+                        }
+                    });
+                    break;
+                case "location":
+                    try {
+                        viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                        viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                        viewHolder.outgoing_location_relative.setVisibility(View.VISIBLE);
+                        viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                        viewHolder.out_image.setVisibility(View.GONE);
+                        viewHolder.out_video_cab.setVisibility(View.GONE);
+                        viewHolder.incoming_image.setVisibility(View.GONE);
+                        viewHolder.layout.setVisibility(View.GONE);
+                        viewHolder.incoming_pdf.setVisibility(View.GONE);
+                        //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                        viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                        viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                        viewHolder.out_pdf.setVisibility(View.GONE);
+                        viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                        viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                        viewHolder.parent_layout.setVisibility(View.GONE);
+                        // viewHolder.image_view_audiio.setVisibility(View.GONE);
+                        viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                        viewHolder.outgoing_location_time.setText(message.getTime());
+
+                        String strLocation[] = message.getMessage().split(",");
+                        viewHolder.outgoing_location_address.setText(strLocation[2]);
+                        viewHolder.outgoing_view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String strL[] = message.getMessage().split(",");
+                                String currLocation = "&daddr=" + strL[2];
                      /*   Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                                 Uri.parse("http://maps.google.com/maps?saddr=" + currLocation
                                         + "&dirflg=d"));
@@ -516,61 +513,60 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
                         intent.setClassName("com.google.android.apps.maps",
                                 "com.google.android.maps.MapsActivity");
                         context.startActivity(intent);*/
-                            Intent i = new Intent(context, MapBoxActivity.class);
-                            i.putExtra("lat", Double.valueOf(strL[0]));
-                            i.putExtra("lang", Double.valueOf(strL[1]));
-                            i.putExtra("title", strL[1]);
-                            context.startActivity(i);
-                        }
-                    });
+                                Intent i = new Intent(context, MapBoxActivity.class);
+                                i.putExtra("lat", Double.valueOf(strL[0]));
+                                i.putExtra("lang", Double.valueOf(strL[1]));
+                                i.putExtra("title", strL[1]);
+                                context.startActivity(i);
+                            }
+                        });
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
 
-                }
-                return;
-            } else if (message.getType().equalsIgnoreCase("msg")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoingTextImage.setText(message.getMessage());
-                viewHolder.outgoing_text_time.setText(message.getTime());
-                viewHolder.layout.setVisibility(View.VISIBLE);
-                // viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                return;
-            }else {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
+                    }
+                    break;
+                case "msg":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.outgoingTextImage.setText(message.getMessage());
+                    viewHolder.outgoing_text_time.setText(message.getTime());
+                    viewHolder.layout.setVisibility(View.VISIBLE);
+                    // viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    break;
+                    default:
+                        viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                        viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                        viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                        viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                        viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                        viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                        viewHolder.out_image.setVisibility(View.GONE);
+                        viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                        viewHolder.out_video_cab.setVisibility(View.GONE);
+                        viewHolder.incoming_image.setVisibility(View.GONE);
+                        viewHolder.layout.setVisibility(View.GONE);
+                        viewHolder.incoming_pdf.setVisibility(View.GONE);
+                        viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                        viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                        viewHolder.out_pdf.setVisibility(View.GONE);
+                        viewHolder.parent_layout.setVisibility(View.GONE);
+                        break;
 
-
-                return;
             }
         }
         // If not mine then align to left
@@ -587,267 +583,242 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
                 viewHolder.relativeDate.setVisibility(View.VISIBLE);
                 viewHolder.dateTextView.setText(message.getDate());
             }
-            if (message.getType().equalsIgnoreCase("img")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.VISIBLE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                // viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                if (mode.equals("offline")){
-                    Glide.with(context)
-                            .load(new File(message.getMessage()))
-                            .into(viewHolder.incoming_image_IV);
+            switch (message.getType()){
+                case "img":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.VISIBLE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    // viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    if (mode.equals("offline")){
+                        Glide.with(context)
+                                .load(new File(message.getMessage()))
+                                .into(viewHolder.incoming_image_IV);
 
-                }else{
+                    }else{
 
-                    Glide.with(context)
-                            .load(message.getMessage())
-                            .into(viewHolder.incoming_image_IV);
-                }
+                        Glide.with(context)
+                                .load(message.getMessage())
+                                .into(viewHolder.incoming_image_IV);
+                    }
                 /*Glide.with(context)
                         .load(message.getMessage())
                         .into(viewHolder.incoming_image_IV);*/
 
-                viewHolder.incoming_image_time.setText(message.getTime());
-                viewHolder.incoming_image_IV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(context, GroupFullScreenViewActivity.class);
-                        //  i.putStringArrayListExtra("image", imgage);
-                        i.putExtra("id", message.getMid());
-                        i.putExtra("rid", message.getRecieverName());
-                        context.startActivityForResult(i,88);
+                    viewHolder.incoming_image_time.setText(message.getTime());
+                    viewHolder.incoming_image_IV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(context, GroupFullScreenViewActivity.class);
+                            //  i.putStringArrayListExtra("image", imgage);
+                            i.putExtra("id", message.getMid());
+                            i.putExtra("rid", message.getRecieverName());
+                            context.startActivityForResult(i,88);
 
+
+                        }
+                    });
+                    break;
+                case "pdf":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    //   viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    // viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.VISIBLE);
+                    String str = message.getMessage().replace(Confiq.RETURN_IMAGE_URL, "");
+                    if (str.toLowerCase().endsWith(".xls") || str.toLowerCase().endsWith(".xlsb") || str.toLowerCase().endsWith(".xlsm") || str.toLowerCase().endsWith(".xlsx") || str.toLowerCase().endsWith(".xlt") || str.toLowerCase().endsWith(".xltx")) {
+                        viewHolder.txtincomming_pdf.setText("Excel File");
+                        viewHolder.incoming_doc_icon.setImageResource(R.drawable.excel);
+                    } else if (str.toLowerCase().endsWith(".pdf")) {
+                        viewHolder.txtincomming_pdf.setText("PDF File");
+                        viewHolder.incoming_doc_icon.setImageResource(R.drawable.pdf);
+                    } else {
+                        viewHolder.txtincomming_pdf.setText("Word File");
+                        viewHolder.incoming_doc_icon.setImageResource(R.drawable.word);
 
                     }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("pdf")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                //   viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
 
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                // viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.VISIBLE);
-                String str = message.getMessage().replace(Confiq.RETURN_IMAGE_URL, "");
-                if (str.toLowerCase().endsWith(".xls") || str.toLowerCase().endsWith(".xlsb") || str.toLowerCase().endsWith(".xlsm") || str.toLowerCase().endsWith(".xlsx") || str.toLowerCase().endsWith(".xlt") || str.toLowerCase().endsWith(".xltx")) {
-                    viewHolder.txtincomming_pdf.setText("Excel File");
-                    viewHolder.incoming_doc_icon.setImageResource(R.drawable.excel);
-                } else if (str.toLowerCase().endsWith(".pdf")) {
-                    viewHolder.txtincomming_pdf.setText("PDF File");
-                    viewHolder.incoming_doc_icon.setImageResource(R.drawable.pdf);
-                } else {
-                    viewHolder.txtincomming_pdf.setText("Word File");
-                    viewHolder.incoming_doc_icon.setImageResource(R.drawable.word);
-
-                }
-
-                viewHolder.incoming_pdf_time.setText(message.getTime());
-                viewHolder.incoming_linear_click.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    viewHolder.incoming_pdf_time.setText(message.getTime());
+                    viewHolder.incoming_linear_click.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
                      /*   Intent i = new Intent(context, PdfViewr.class);
                         i.putExtra("pdf", message.getMessage());
                         context.startActivity(i);
                     */
-                        String pad= message.getMessage().replace(Confiq.RETURN_IMAGE_URL,"");
-                        Utils.downloadFile(context,  message.getMessage(), pad);
+                            String pad= message.getMessage().replace(Confiq.RETURN_IMAGE_URL,"");
+                            Utils.downloadFile(context,  message.getMessage(), pad);
+                        }
+                    });
+                    break;
+                case "video":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.VISIBLE);
+                    //   viewHolder.incoming_image_view_audiio.setVisibility(View.VISIBLE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    //   viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+
+                    viewHolder.incoming_video_time.setText(message.getTime());
+                    if (mode.equals("offline")){
+                        Glide.with(context)
+                                .load(new File(message.getMessage()))
+                                //   .placeholder(R.drawable.placeholder)
+                                // .error(R.drawable.imagenotfound)
+                                .listener(new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                        // log exception
+                                        Log.e("TAG", "Error loading image", e);
+                                        // viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
+                                        viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
+                                        return false; // important to return false so the error placeholder can be placed
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                        //   viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
+                                        viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
+                                        return false;
+                                    }
+                                })
+                                .into(viewHolder.incoming_video_IV);
+
+                        Glide.with(context)
+                                //.load("https://www.demonuts.com/Demonuts/smallvideo.mp4")
+                                .load(new File(message.getMessage()))
+                                //.placeholder(R.drawable.group_icon)
+                                .into(viewHolder.incoming_video_IV);
+
+
+                    }else{
+
+                        Glide.with(context)
+                                .load(message.getMessage())
+                                //   .placeholder(R.drawable.placeholder)
+                                // .error(R.drawable.imagenotfound)
+                                .listener(new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                        // log exception
+                                        Log.e("TAG", "Error loading image", e);
+                                        // viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
+                                        viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
+                                        return false; // important to return false so the error placeholder can be placed
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                        //   viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
+                                        viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
+                                        return false;
+                                    }
+                                })
+                                .into(viewHolder.incoming_video_IV);
+
+                        Glide.with(context)
+                                //.load("https://www.demonuts.com/Demonuts/smallvideo.mp4")
+                                .load(message.getMessage())
+                                //.placeholder(R.drawable.group_icon)
+                                .into(viewHolder.incoming_video_IV);
                     }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("video")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.VISIBLE);
-                //   viewHolder.incoming_image_view_audiio.setVisibility(View.VISIBLE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                //   viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-
-                viewHolder.incoming_video_time.setText(message.getTime());
-                if (mode.equals("offline")){
-                    Glide.with(context)
-                            .load(new File(message.getMessage()))
-                            //   .placeholder(R.drawable.placeholder)
-                            // .error(R.drawable.imagenotfound)
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    // log exception
-                                    Log.e("TAG", "Error loading image", e);
-                                    // viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
-                                    viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
-                                    return false; // important to return false so the error placeholder can be placed
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    //   viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
-                                    viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
-                                    return false;
-                                }
-                            })
-                            .into(viewHolder.incoming_video_IV);
-
-                    Glide.with(context)
-                            //.load("https://www.demonuts.com/Demonuts/smallvideo.mp4")
-                            .load(new File(message.getMessage()))
-                            //.placeholder(R.drawable.group_icon)
-                            .into(viewHolder.incoming_video_IV);
 
 
-                }else{
+                    viewHolder.incoming_video_cab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(context, VideoAvtivity.class);
+                            i.putExtra("video", message.getMessage());
+                            context.startActivity(i);
+                        }
+                    });
+                    break;
+                case "audio":
+                    viewHolder.incoming_audio_relative.setVisibility(View.VISIBLE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
 
-                    Glide.with(context)
-                            .load(message.getMessage())
-                            //   .placeholder(R.drawable.placeholder)
-                            // .error(R.drawable.imagenotfound)
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    // log exception
-                                    Log.e("TAG", "Error loading image", e);
-                                    // viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
-                                    viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
-                                    return false; // important to return false so the error placeholder can be placed
-                                }
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    // viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
 
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    //   viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
-                                    viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
-                                    return false;
-                                }
-                            })
-                            .into(viewHolder.incoming_video_IV);
+                    viewHolder.incoming_audio_time.setText(message.getTime());
 
-                    Glide.with(context)
-                            //.load("https://www.demonuts.com/Demonuts/smallvideo.mp4")
-                            .load(message.getMessage())
-                            //.placeholder(R.drawable.group_icon)
-                            .into(viewHolder.incoming_video_IV);
-                }
-                /*Glide.with(context)
-                        .load(message.getMessage())
-                        //   .placeholder(R.drawable.placeholder)
-                        // .error(R.drawable.imagenotfound)
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                // log exception
-                                Log.e("TAG", "Error loading image", e);
-                                // viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
-                                viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
-                                return false; // important to return false so the error placeholder can be placed
-                            }
 
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                //   viewHolder.incoming_video_progress_bar.setVisibility(View.GONE);
-                                viewHolder.incoming_play_btn.setVisibility(View.VISIBLE);
-                                return false;
-                            }
-                        })
-                        .into(viewHolder.incoming_video_IV);*/
-                /*Glide.with(context)
-                        //.load("https://www.demonuts.com/Demonuts/smallvideo.mp4")
-                        .load(message.getMessage())
-                        //.placeholder(R.drawable.group_icon)
-                        .into(viewHolder.incoming_video_IV);*/
+                    if (message.isSelect()) {
+                        viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
+                        viewHolder.incoming_image_view_audio_stop.setVisibility(View.VISIBLE);
+                        viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                        viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
 
-                viewHolder.incoming_video_cab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(context, VideoAvtivity.class);
-                        i.putExtra("video", message.getMessage());
-                        context.startActivity(i);
+                        if (mediaPlayer != null) {
+                            viewHolder.incoming_seekbar.setProgress(mediaPlayer.getCurrentPosition());
+                        }
+                    } else if (!message.isSelect()) {
+
+
+                        viewHolder.incoming_seekbar.setProgress(0);
+
+                        viewHolder.incoming_image_view_audio.setVisibility(View.VISIBLE);
+                        viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
+                        viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
+                        viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
                     }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("audio")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.VISIBLE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                // viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-
-                viewHolder.incoming_audio_time.setText(message.getTime());
-
-
-                if (message.isSelect()) {
-                    viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
-                    viewHolder.incoming_image_view_audio_stop.setVisibility(View.VISIBLE);
-                    viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
-                    viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
-
-                    if (mediaPlayer != null) {
-                        viewHolder.incoming_seekbar.setProgress(mediaPlayer.getCurrentPosition());
-                    }
-                } else if (!message.isSelect()) {
-
-
-                    viewHolder.incoming_seekbar.setProgress(0);
-
-                    viewHolder.incoming_image_view_audio.setVisibility(View.VISIBLE);
-                    viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
-                    viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
-                    viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
-                }
-                viewHolder.incoming_image_view_audio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    viewHolder.incoming_image_view_audio.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
                      /*   for (int i = 0; i < chatMessageList.size(); i++) {
                             if (position == i) {
                                 message.setSelect(true);
@@ -857,140 +828,145 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
 
                         }
 */
+                            for (JsonModelForChat model:chatMessageList) {
+                              //  if (model.isSelect == true) {
+                                    model.setSelect(false);
+                               // }
+                            }
+                     Log.d("POSITIONGROUP",position+" ");
 
-                        message.setSelect(true);
-                        playSong(message,message.getMessage(), viewHolder.outgoing_seekbar, position, viewHolder.outgoing_image_view_audio, viewHolder.outgoing_image_view_audio_stop, viewHolder.incoming_image_view_audio_stop, viewHolder.incoming_image_view_audio);
+                            message.setSelect(true);
+                            playSong(message,message.getMessage(), viewHolder.incoming_seekbar, position, viewHolder.outgoing_image_view_audio, viewHolder.outgoing_image_view_audio_stop, viewHolder.incoming_image_view_audio_stop, viewHolder.incoming_image_view_audio);
 
-                        //  notifyDataSetChanged();
-                        //playSong(message.getMessage(), viewHolder.incoming_seekbar, position);
-                        if (message.isSelect()) {
-                            viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
-                            viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
-                            viewHolder.incoming_image_view_audio_stop.setVisibility(View.VISIBLE);
-                            viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                            //  notifyDataSetChanged();
+                            //playSong(message.getMessage(), viewHolder.incoming_seekbar, position);
+                            if (message.isSelect()) {
+                                viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
+                                viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
+                                viewHolder.incoming_image_view_audio_stop.setVisibility(View.VISIBLE);
+                                viewHolder.incoming_image_view_audio.setVisibility(View.GONE);
+                            }
+
+                            // Toast.makeText(context, "PLAY" + position, Toast.LENGTH_SHORT).show();
+
                         }
+                    });
+                    viewHolder.incoming_image_view_audio_stop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            message.setSelect(false);
+                            //  notifyDataSetChanged();
 
-                        // Toast.makeText(context, "PLAY" + position, Toast.LENGTH_SHORT).show();
+                            viewHolder.incoming_seekbar.setProgress(0);
+                            try {
+                                mediaPlayer.stop();
+                                mediaPlayer.release();
+                                mediaPlayer = null;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //   Toast.makeText(context, "STOPs" + position, Toast.LENGTH_SHORT).show();
+                            if (!message.isSelect()) {
 
-                    }
-                });
-                viewHolder.incoming_image_view_audio_stop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        message.setSelect(false);
-                        //  notifyDataSetChanged();
-
-                        viewHolder.incoming_seekbar.setProgress(0);
-                        try {
-                            mediaPlayer.stop();
-                            mediaPlayer.release();
-                            mediaPlayer = null;
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                                viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
+                                viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
+                                viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
+                                viewHolder.incoming_image_view_audio.setVisibility(View.VISIBLE);
+                            }
                         }
-                        //   Toast.makeText(context, "STOPs" + position, Toast.LENGTH_SHORT).show();
-                        if (!message.isSelect()) {
-
-                            viewHolder.outgoing_image_view_audio.setVisibility(View.GONE);
-                            viewHolder.outgoing_image_view_audio_stop.setVisibility(View.GONE);
-                            viewHolder.incoming_image_view_audio_stop.setVisibility(View.GONE);
-                            viewHolder.incoming_image_view_audio.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("emoji")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_emoji_time.setText(message.getTime());
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.VISIBLE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                //  viewHolder.image_view_audiio.setVisibility(View.GONE);
-
-
-                Resources res =  context.getResources();
-                String mDrawableName = message.getMessage();
-                int resID = res.getIdentifier(mDrawableName , "drawable", context.getPackageName());
-                Drawable drawable = res.getDrawable(resID );
-                viewHolder.incoming_emoji_image.setImageDrawable(drawable );
-                return;
-
-            } else if (message.getType().equalsIgnoreCase("share")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.incoming_contact_time.setText(message.getTime());
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.VISIBLE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-                // viewHolder.image_view_audiio.setVisibility(View.GONE);
-                String[] strData = message.getMessage().split(",");
-                viewHolder.incoming_contact_number.setText(strData[0]);
-                viewHolder.incoming_view_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(context, ProfileActivity.class);
-                        i.putExtra("name", strData[0]);
-                        i.putExtra("rid", strData[2]);
-                        i.putExtra("did", strData[3]);
-                        context.startActivity(i);
-                    }
-                });
-                return;
-            } else if (message.getType().equalsIgnoreCase("location")) {
-                try {
+                    });
+                    break;
+                case "emoji":
                     viewHolder.incoming_audio_relative.setVisibility(View.GONE);
                     viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
                     viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                    viewHolder.incoming_location_relative.setVisibility(View.VISIBLE);
-
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_emoji_time.setText(message.getTime());
                     viewHolder.out_image.setVisibility(View.GONE);
                     viewHolder.out_video_cab.setVisibility(View.GONE);
                     viewHolder.incoming_image.setVisibility(View.GONE);
                     viewHolder.layout.setVisibility(View.GONE);
                     viewHolder.incoming_pdf.setVisibility(View.GONE);
-                    //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.VISIBLE);
+                    viewHolder.parent_layout.setVisibility(View.GONE);
+                    //  viewHolder.image_view_audiio.setVisibility(View.GONE);
+
+
+                    Resources res =  context.getResources();
+                    String mDrawableName = message.getMessage();
+                    int resID = res.getIdentifier(mDrawableName , "drawable", context.getPackageName());
+                    Drawable drawable = res.getDrawable(resID );
+                    viewHolder.incoming_emoji_image.setImageDrawable(drawable );
+                    break;
+                case "share":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_contact_time.setText(message.getTime());
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    //   viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
                     viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
                     viewHolder.incoming_video_cab.setVisibility(View.GONE);
                     viewHolder.out_pdf.setVisibility(View.GONE);
                     viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
                     viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.VISIBLE);
                     viewHolder.parent_layout.setVisibility(View.GONE);
-                    //  viewHolder.image_view_audiio.setVisibility(View.GONE);
-                    viewHolder.incoming_location_time.setText(message.getTime());
-                    String strLocation[] = message.getMessage().split(",");
-                    //String currLocation = "&daddr=" + strLocation[2];
-                    viewHolder.incoming_location_address.setText(strLocation[2]);
-                    viewHolder.incoming_view.setOnClickListener(new View.OnClickListener() {
+                    // viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    String[] strData = message.getMessage().split(",");
+                    viewHolder.incoming_contact_number.setText(strData[0]);
+                    viewHolder.incoming_view_image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String strL[] = message.getMessage().split(",");
-                            String currLocation = "&daddr=" + strL[2];
+                            Intent i = new Intent(context, ProfileActivity.class);
+                            i.putExtra("name", strData[0]);
+                            i.putExtra("rid", strData[2]);
+                            i.putExtra("did", strData[3]);
+                            context.startActivity(i);
+                        }
+                    });
+                    break;
+                case "location":
+                    try {
+                        viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                        viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                        viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                        viewHolder.incoming_location_relative.setVisibility(View.VISIBLE);
+
+                        viewHolder.out_image.setVisibility(View.GONE);
+                        viewHolder.out_video_cab.setVisibility(View.GONE);
+                        viewHolder.incoming_image.setVisibility(View.GONE);
+                        viewHolder.layout.setVisibility(View.GONE);
+                        viewHolder.incoming_pdf.setVisibility(View.GONE);
+                        //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                        viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                        viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                        viewHolder.out_pdf.setVisibility(View.GONE);
+                        viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                        viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                        viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                        viewHolder.parent_layout.setVisibility(View.GONE);
+                        //  viewHolder.image_view_audiio.setVisibility(View.GONE);
+                        viewHolder.incoming_location_time.setText(message.getTime());
+                        String strLocation[] = message.getMessage().split(",");
+                        //String currLocation = "&daddr=" + strLocation[2];
+                        viewHolder.incoming_location_address.setText(strLocation[2]);
+                        viewHolder.incoming_view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String strL[] = message.getMessage().split(",");
+                                String currLocation = "&daddr=" + strL[2];
                         /*Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                                 Uri.parse("http://maps.google.com/maps?saddr=" + currLocation
                                         + "&dirflg=d"));
@@ -999,63 +975,59 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
                         intent.setClassName("com.google.android.apps.maps",
                                 "com.google.android.maps.MapsActivity");
                         context.startActivity(intent);*/
-                            Intent i = new Intent(context, MapBoxActivity.class);
-                             i.putExtra("lat", Double.valueOf(strL[0]));
-                            i.putExtra("lang", Double.valueOf(strL[1]));
-                            i.putExtra("title", strL[1]);
-                            context.startActivity(i);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return;
-            } else if (message.getType().equalsIgnoreCase("msg")) {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.VISIBLE);
-                //   viewHolder.image_view_audiio.setVisibility(View.GONE);
-                viewHolder.incomming_text.setText(message.getMessage());
-                viewHolder.incoming_text_time.setText(message.getTime());
-                return;
-            }
-            else {
-                viewHolder.incoming_audio_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
-                viewHolder.incoming_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_location_relative.setVisibility(View.GONE);
-                viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
-                viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
-                viewHolder.out_image.setVisibility(View.GONE);
-                viewHolder.incoming_linear_contact.setVisibility(View.GONE);
-                viewHolder.out_video_cab.setVisibility(View.GONE);
-                viewHolder.incoming_image.setVisibility(View.GONE);
-                viewHolder.layout.setVisibility(View.GONE);
-                viewHolder.incoming_pdf.setVisibility(View.GONE);
-                viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
-                viewHolder.incoming_video_cab.setVisibility(View.GONE);
-                viewHolder.out_pdf.setVisibility(View.GONE);
-                viewHolder.parent_layout.setVisibility(View.GONE);
-
-
-                return;
+                                Intent i = new Intent(context, MapBoxActivity.class);
+                                i.putExtra("lat", Double.valueOf(strL[0]));
+                                i.putExtra("lang", Double.valueOf(strL[1]));
+                                i.putExtra("title", strL[1]);
+                                context.startActivity(i);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "msg":
+                    viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                    viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                    viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                    viewHolder.out_image.setVisibility(View.GONE);
+                    viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                    viewHolder.out_video_cab.setVisibility(View.GONE);
+                    viewHolder.incoming_image.setVisibility(View.GONE);
+                    viewHolder.layout.setVisibility(View.GONE);
+                    viewHolder.incoming_pdf.setVisibility(View.GONE);
+                    viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                    //  viewHolder.incoming_image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                    viewHolder.out_pdf.setVisibility(View.GONE);
+                    viewHolder.parent_layout.setVisibility(View.VISIBLE);
+                    //   viewHolder.image_view_audiio.setVisibility(View.GONE);
+                    viewHolder.incomming_text.setText(message.getMessage());
+                    viewHolder.incoming_text_time.setText(message.getTime());
+                    break;
+                 default:
+                     viewHolder.incoming_audio_relative.setVisibility(View.GONE);
+                     viewHolder.outgoing_audio_relative.setVisibility(View.GONE);
+                     viewHolder.incoming_location_relative.setVisibility(View.GONE);
+                     viewHolder.outgoing_location_relative.setVisibility(View.GONE);
+                     viewHolder.outgoing_relative_emoji.setVisibility(View.GONE);
+                     viewHolder.incoming_relative_emoji.setVisibility(View.GONE);
+                     viewHolder.out_image.setVisibility(View.GONE);
+                     viewHolder.incoming_linear_contact.setVisibility(View.GONE);
+                     viewHolder.out_video_cab.setVisibility(View.GONE);
+                     viewHolder.incoming_image.setVisibility(View.GONE);
+                     viewHolder.layout.setVisibility(View.GONE);
+                     viewHolder.incoming_pdf.setVisibility(View.GONE);
+                     viewHolder.outgoing_linear_contact.setVisibility(View.GONE);
+                     viewHolder.incoming_video_cab.setVisibility(View.GONE);
+                     viewHolder.out_pdf.setVisibility(View.GONE);
+                     viewHolder.parent_layout.setVisibility(View.GONE);
+                     break;
             }
         }
-
     }
 
     public void playSong(JsonModelForChat message1,String url, SeekBar seekBar1, int position,ImageView outgoing_image_view_audio1,
@@ -1290,14 +1262,12 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
 
             outgoing_relative_emoji = (RelativeLayout) itemView.findViewById(R.id.outgoing_relative_emoji);
 
-
             incoming_relative_emoji = (RelativeLayout) itemView.findViewById(R.id.incoming_relative_emoji);
 
 // CONTACT VIEW
 
             outgoing_contact_view = (Button) itemView.findViewById(R.id.outgoing_contact_view);
             incoming_view_image = (Button) itemView.findViewById(R.id.incoming_view_image);
-
             /////
             incoming_view = (View) itemView.findViewById(R.id.incoming_view);
             outgoing_view = (View) itemView.findViewById(R.id.outgoing_view);
@@ -1334,11 +1304,7 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.View
             tickMarkFirstOutPDF = (ImageView) itemView.findViewById(R.id.tickMarkFirstOutPDF);
             tickMarkFirstOutEmoji = (ImageView) itemView.findViewById(R.id.tickMarkFirstOutEmoji);
 
-
         }
-
-
-
 
         /*@Override
         public void onMapReady(MapboxMap mapboxMap) {
